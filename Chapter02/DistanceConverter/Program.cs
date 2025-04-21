@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace DistanceConverter {
     internal class Program {
+        //コマンドライン引数
         static void Main(string[] args) {
 
             //string → int (int.Parse())
