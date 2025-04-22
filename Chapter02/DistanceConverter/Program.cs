@@ -31,20 +31,21 @@ namespace DistanceConverter {
             return meter / 0.3048;
         }
 
+        //フィートからメートル
         static void PrintFrrtToMeterList(int strat, int end) {
-            //フィートからメートル
             for (int feet = strat; feet <= end; feet++) {
                 double meter = FeetToMeter(feet);
                 Console.WriteLine($"{feet}ft = {meter:0.0000}m");
             }
         }
 
+        //メートルからフィート
         static void PrintMeterToFeet(int strat, int end) {
-            //メートルからフィート
             for (int meter = strat; meter <= end; meter++) {
                 double feet = MeterToFeet(meter);
                 Console.WriteLine($"{meter}m = {feet:0.0000}ft");
             }
         }
+
     }
 }
