@@ -8,13 +8,14 @@ namespace DistanceConverter
 {
     public class FeetConverter
     {
+
         //メートルからフィートを求める
-        static double FromMeter(double meter) {
+        public double FromMeter(double meter) {
             return meter / 0.3048;
         }
 
         //フィートからメートルを求める
-        static double FromFeet(double feet) {
+        public double ToFeet(double feet) {
             return feet * 0.3048;
         }
 

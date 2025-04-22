@@ -23,26 +23,21 @@ namespace DistanceConverter {
 
         }
 
-        static double FeetToMeter(int feet) {
-            return feet * 0.3048;
-        }
-
-        static double MeterToFeet(int meter) {
-            return meter / 0.3048;
-        }
 
         //フィートからメートル
         static void PrintFrrtToMeterList(int strat, int end) {
+            FeetConverter fc = new FeetConverter();
             for (int feet = strat; feet <= end; feet++) {
-                double meter = FeetToMeter(feet);
+                double meter = fc.ToFeet(feet);
                 Console.WriteLine($"{feet}ft = {meter:0.0000}m");
             }
         }
 
         //メートルからフィート
         static void PrintMeterToFeet(int strat, int end) {
+            FeetConverter fc = new FeetConverter();
             for (int meter = strat; meter <= end; meter++) {
-                double feet = MeterToFeet(meter);
+                double feet = fc.FromMeter(meter);
                 Console.WriteLine($"{meter}m = {feet:0.0000}ft");
             }
         }
