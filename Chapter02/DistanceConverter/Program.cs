@@ -26,18 +26,18 @@ namespace DistanceConverter {
 
         //フィートからメートル
         static void PrintFrrtToMeterList(int strat, int end) {
-            FeetConverter fc = new FeetConverter();
+            //FeetConverter fc = new FeetConverter();
             for (int feet = strat; feet <= end; feet++) {
-                double meter = fc.ToFeet(feet);
+                double meter = FeetConverter.ToFeet(feet);
                 Console.WriteLine($"{feet}ft = {meter:0.0000}m");
             }
         }
 
         //メートルからフィート
         static void PrintMeterToFeet(int strat, int end) {
-            FeetConverter fc = new FeetConverter();
+            //FeetConverter fc = new FeetConverter();
             for (int meter = strat; meter <= end; meter++) {
-                double feet = fc.FromMeter(meter);
+                double feet = FeetConverter.FromMeter(meter);
                 Console.WriteLine($"{meter}m = {feet:0.0000}ft");
             }
         }
