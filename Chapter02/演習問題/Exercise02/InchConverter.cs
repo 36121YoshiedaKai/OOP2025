@@ -16,6 +16,11 @@ namespace Exercise02
             return Inch * ratio;
         }
 
+        //メートルからフィートを求める
+        public static double FromMeter(double meter) {
+            return meter / ratio;
+        }
+
 
     }
 }
