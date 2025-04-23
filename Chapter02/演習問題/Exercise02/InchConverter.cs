@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exercise02
-{
-    class InchConverter
-    {
+namespace Exercise02 {
+    class InchConverter {
+
         //定数
         private const double ratio = 0.0254;
 
@@ -16,11 +15,10 @@ namespace Exercise02
             return Inch * ratio;
         }
 
-        //メートルからフィートを求める
+        //メートルからインチを求める
         public static double FromMeter(double meter) {
             return meter / ratio;
         }
-
 
     }
 }
