@@ -11,8 +11,14 @@ namespace Exercise01 {
         public string Title { get; set; } = string.Empty;
         string ArtistName { get; set; } = string.Empty;
         int Length;
+
+        //2.1.2
+        public Song(string Title, string ArtistName, int Length) {
+            this.Title = Title;
+            this.ArtistName = ArtistName;
+            this.Length = Length;
+        }
     }
-    //2.1.2
 
 
 }
