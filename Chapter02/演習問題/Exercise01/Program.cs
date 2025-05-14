@@ -31,7 +31,7 @@
         }
 
         //2.1.4
-        private static void printSongs(List<Song> songs) {
+        private static void printSongs(IEnumerable<Song> songs) {
 #if true
             foreach (var song in songs) {
                 Console.WriteLine($"{song.Title},{song.ArtistName},{song.Length}");
