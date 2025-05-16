@@ -1,30 +1,41 @@
 ﻿namespace Section01 {
     internal class Program {
-
-        // public delegate bool Judgement(int value);  //デリゲートの宣言
-
-
         static void Main(string[] args) {
+            var cities = new List<string> {
+                "Tokyo",
+                "New Delhi",
+                "Bangkok",
+                "London",
+                "Paris",
+                "Berlin",
+                "Canberra",
+                "Hong Kong",
+            };
 
-            //Console.Write("カウントしたい数値：");
-            //int num = int.Parse(Console.ReadLine());
+            /* var exists = cities.Exists(s => s[0] == 'P');
+             Console.WriteLine(exists);
+             Console.WriteLine();
 
-            var numbers = new[] { 5, 3, 9, 6, 7, 5, 8, 1, 0, 5, 10, 4 };
+             var find = cities.Find(s => s.Length == 6);
+             Console.WriteLine(find);
+             Console.WriteLine();
 
-            Console.WriteLine(Count(numbers, n => 5 <= n && n < 10 ));
+             var index = cities.FindIndex(s => s == "Berlin");
+             Console.WriteLine(index);
+             Console.WriteLine();
 
-        }
+             var names = cities.FindAll(s => s.Length <= 5);
 
-        static int Count(int[] numbers, Predicate<int> judge) {
-            //var numbers = new[] { 5, 3, 9, 6, 7, 5, 8, 1, 0, 5, 10, 4 };
-            var count = 0;
-            foreach (var n in numbers) {
-                //引数で受け取ったメソッドを呼び出す
-                if (judge(n) == true) {
-                    count++;
-                }
-            }
-            return count;
+             cities.ForEach(s => Console.WriteLine(s));
+             Console.WriteLine();*/
+
+                                                   //ToUpper 大文字
+            var lowerList = cities.ConvertAll(s => s.ToLower());
+            lowerList.ForEach(s => Console.WriteLine(s));
+
+
+
+
         }
 
     }
