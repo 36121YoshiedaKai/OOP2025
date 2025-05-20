@@ -37,18 +37,22 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_2(List<string> cities) {
-            Console.WriteLine( cities.Count(s => s.Contains('o')));
+            Console.WriteLine(cities.Count(s => s.Contains('o')));
         }
 
         private static void Exercise2_3(List<string> cities) {
-            IEnumerable<string> city = cities.Where(s => s.Contains('o'));
-            foreach(string cityname in city) {
+            var city = cities.Where(s => s.Contains('o'));
+            foreach (var cityname in city) {
                 Console.WriteLine(cityname);
             }
         }
 
         private static void Exercise2_4(List<string> cities) {
-
+            var obj = cities.Where(s => s.StartsWith('B'))
+                .Select(s => new { s, s.Length });
+            foreach (var data in obj) {
+                Console.WriteLine(data.s + ":" + data.Length);
+            }
         }
     }
 }
