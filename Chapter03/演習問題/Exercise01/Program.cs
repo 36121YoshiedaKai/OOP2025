@@ -21,8 +21,8 @@ namespace Exercise01 {
         }
 
         private static void Exercise1(List<int> numbers) {
-            var exists = numbers.Exists(s => s % 8 == 0 || s % 9 == 0);
-            if (exists == true) {
+            var exist = numbers.Exists(s => s % 8 == 0 || s % 9 == 0);
+            if (exist) {
                 Console.WriteLine("存在する");
             } else {
                 Console.WriteLine("存在しない");
@@ -42,7 +42,10 @@ namespace Exercise01 {
         }
 
         private static void Exercise4(List<int> numbers) {
-           
+            List<int> Multipleoftwo = numbers.Select(s => s * 2).ToList();
+            foreach (var x in Multipleoftwo) {
+                Console.WriteLine(x);
+            }
         }
     }
 }
