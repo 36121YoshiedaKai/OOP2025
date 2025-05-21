@@ -20,6 +20,7 @@ namespace Exercise01 {
             Exercise4(numbers);
         }
 
+
         private static void Exercise1(List<int> numbers) {
             var exist = numbers.Exists(n => n % 8 == 0 || n % 9 == 0);
             if (exist) {
