@@ -53,7 +53,7 @@ namespace Exercise01 {
 
         private static void Exercise3(List<string> langs) {
 
-            var getfind = langs.Find(s => s.Length == 10)?? "unknown";
+            var getfind = langs.Find(s => s.Length == 10) ?? "unknown";
             Console.WriteLine(getfind);
         }
 
