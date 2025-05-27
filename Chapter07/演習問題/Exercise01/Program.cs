@@ -39,19 +39,29 @@ namespace Exercise01 {
                 Console.WriteLine(num[i]);
             }
 
+            //var strs = numbers.Select(n => n.ToString("D3"));//ゼロサプレス
+            //foreach (var s in strs) {
+            //    Console.WriteLine(s);
+            //}
+
 
         }
 
         private static void Exercise4(int[] numbers) {
-            var sortnumbers = numbers.OrderBy(n => n).ToList();
-            for (int i = 0; i < 3; i++) {
-                Console.WriteLine(sortnumbers[i]);
+            //var sortnumbers = numbers.OrderBy(n => n).ToList();
+            //for (int i = 0; i < 3; i++) {
+            //    Console.WriteLine(sortnumbers[i]);
+            //}
+
+            foreach (var n in numbers.Order().Take(3)) {
+                Console.WriteLine(n);
             }
+
         }
 
         private static void Exercise5(int[] numbers) {
-            var disnumbers = numbers.Distinct().ToList();
-            Console.WriteLine(disnumbers.Count(n => n > 10));
+            var disnumbers = numbers.Distinct().Count(n => n > 10);
+            Console.WriteLine(disnumbers);
         }
     }
 }
