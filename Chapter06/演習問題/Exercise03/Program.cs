@@ -25,10 +25,11 @@ namespace Exercise03 {
         }
 
         private static void Exercise1(string text) {
-            Console.Write("空白は");
+            //Console.Write("空白は");
             //Console.WriteLine(text.Count(c => c == ' '));
-            Console.WriteLine(text.Count(char.IsWhiteSpace));
-
+            //Console.WriteLine(text.Count(char.IsWhiteSpace));
+            var spaces = text.Count(c => c == ' ');
+            Console.WriteLine("空白数:{0}", spaces);
         }
 
         private static void Exercise2(string text) {
@@ -40,11 +41,17 @@ namespace Exercise03 {
         }
 
         private static void Exercise4(string text) {
-            Console.WriteLine(text.Count());
+            var word = text.Split(' ');
+            Console.WriteLine(word.Count());
         }
 
         private static void Exercise5(string text) {
-            
+            //var words = text.Split(' ').Where(s => s.Length <= 4);
+            var word = text.Split(' ');
+            foreach (var item in word.Where(s => s.Length <= 4)) {
+                Console.WriteLine(item);
+            }
+
         }
     }
 }
