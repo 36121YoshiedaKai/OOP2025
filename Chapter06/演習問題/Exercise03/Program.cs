@@ -40,14 +40,18 @@ namespace Exercise03 {
         private static void Exercise3(string text) {
             var array = text.Split(' ');
             var sb = new StringBuilder();
-            var i = 0;
+            //var i = 0;
             foreach (var item in array) {
-                sb.Append(item);
-                i = i + 1;
-                if (i < array.Length)
-                    sb.Append(' ');
+                sb.Append(item + " ");
+                //i = i + 1;
+                //if (i < array.Length)
+                //    sb.Append(' ');
+                //else if (i == array.Length)
+                //    sb.Append('.');
             }
-            Console.WriteLine(sb);
+            //var ans = sb.ToString().TrimEnd();
+
+            Console.WriteLine(ans + ".");
 
         }
 
