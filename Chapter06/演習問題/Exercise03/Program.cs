@@ -49,7 +49,7 @@ namespace Exercise03 {
                 //else if (i == array.Length)
                 //    sb.Append('.');
             }
-            //var ans = sb.ToString().TrimEnd();
+            var ans = sb.ToString().TrimEnd();
 
             Console.WriteLine(ans + ".");
 
