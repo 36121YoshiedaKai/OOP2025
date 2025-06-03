@@ -1,6 +1,7 @@
 ﻿
 using System.Diagnostics.Metrics;
 using System.Reflection;
+using System.Text;
 
 namespace Exercise03 {
     internal class Program {
@@ -37,7 +38,17 @@ namespace Exercise03 {
         }
 
         private static void Exercise3(string text) {
-            
+            var array = text.Split(' ');
+            var sb = new StringBuilder();
+            var i = 0;
+            foreach (var item in array) {
+                sb.Append(item);
+                i = i + 1;
+                if (i < array.Length)
+                    sb.Append(' ');
+            }
+            Console.WriteLine(sb);
+
         }
 
         private static void Exercise4(string text) {
