@@ -16,19 +16,15 @@ namespace Exercise01 {
         }
 
         //5.1.2
-        public bool Is21Century => Year >= 2001 && Year <= 2100;
+        public bool Is21Century => 2001 >= Year && Year <= 2100;
 
         //5.1.3
         public YearMonth AddOneMonth() {
-            var nextYear = Year;
-            var nextMonth = Month;
-            if (nextMonth == 12) {
-                nextYear += 1;
-                nextMonth = 1;
+            if (Month == 12) {
+                return new YearMonth(Year + 1 ,Month -11);
             } else {
-                nextMonth += 1;
-            }
-            return new YearMonth(nextYear, nextMonth) ;
+                return new YearMonth(Year, Month + 1);
+            }  
         }
 
         //5.1.4
