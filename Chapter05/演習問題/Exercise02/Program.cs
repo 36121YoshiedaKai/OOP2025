@@ -31,24 +31,33 @@ namespace Exercise02 {
 
         private static YearMonth? FindFirst21C(YearMonth[] ymCollection) {
             foreach (var item in ymCollection) {
-                if (item.Is21Century == true) {
+                if (item.Is21Century) {
                     return item;
                 }  
             }
             return null;
         }
         private static void Exercise4(YearMonth[] ymCollection) {
-            var first21CYearMonth = FindFirst21C(ymCollection);
-            if (first21CYearMonth == null) {
-                Console.WriteLine("２１世紀のデータはありません");
-            } else {
-                Console.WriteLine(first21CYearMonth);
-            }
+            //var first21CYearMonth = FindFirst21C(ymCollection);
+            //if (first21CYearMonth == null) {
+            //    Console.WriteLine("２１世紀のデータはありません");
+            //} else {
+            //    Console.WriteLine(first21CYearMonth);
+            //}
+
+
+            //var data = FindFirst21C(ymCollection);
+
+            //var str = data?.ToString() ?? "２１世紀のデータはありません";
+            //Console.WriteLine(str);
+
+            Console.WriteLine(FindFirst21C(ymCollection)?.ToString() ?? "２１世紀のデータはありません");
         }
 
         private static void Exercise5(YearMonth[] ymCollection) {
-            var array = ymCollection.Select(x => x.AddOneMonth()).ToArray();
+            var array = ymCollection.Select(x => x.AddOneMonth()).OrderBy(n => n.Month).OrderBy(n => n.Year).ToArray();
             foreach (var item in array) {
+
                 Console.WriteLine(item);
             }
             
