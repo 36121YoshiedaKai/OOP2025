@@ -29,17 +29,28 @@ namespace Exercise02 {
             }
         }
 
-        private static void Exercise4(YearMonth[] ymCollection) {
+        private static YearMonth? FindFirst21C(YearMonth[] ymCollection) {
             foreach (var item in ymCollection) {
                 if (item.Is21Century == true) {
-                    Console.WriteLine(item);
-                } else {
-                    Console.WriteLine("null");
-                }
-            } 
+                    return item;
+                }  
+            }
+            return null;
+        }
+        private static void Exercise4(YearMonth[] ymCollection) {
+            var first21CYearMonth = FindFirst21C(ymCollection);
+            if (first21CYearMonth == null) {
+                Console.WriteLine("２１世紀のデータはありません");
+            } else {
+                Console.WriteLine(first21CYearMonth);
+            }
         }
 
         private static void Exercise5(YearMonth[] ymCollection) {
+            var array = ymCollection.Select(x => x.AddOneMonth()).ToArray();
+            foreach (var item in array) {
+                Console.WriteLine(item);
+            }
             
         }
 
