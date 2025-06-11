@@ -28,17 +28,25 @@ namespace Exercise01 {
             foreach (var item in dict.OrderBy(n => n.Key)) {
                 Console.WriteLine($"{item.Key} : {item.Value}");
             }
-
-
-
-
-
-
-
         }
 
         private static void Exercise2(string text) {
+            var sdict = new SortedDictionary<char, int>();
 
+            foreach (var c in text.ToUpper()) {
+                if ('A' <= c && c <= 'Z') {
+                    if (sdict.ContainsKey(c)) {
+                        sdict[c]++;
+                    } else {
+                        sdict.Add(c, 1);
+                    }
+                }
+            }
+
+
+            foreach (var item in sdict) {
+                Console.WriteLine($"{item.Key} : {item.Value}");
+            }
         }
     }
 }
