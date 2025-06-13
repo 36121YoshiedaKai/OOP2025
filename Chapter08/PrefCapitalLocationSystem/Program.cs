@@ -2,13 +2,20 @@
     internal class Program {
         static private Dictionary<string, string> prefOfficeDict = new Dictionary<string, string>();
 
+        //列挙型の定義
+        public enum SelectMenu {
+            Alldisp = 1,
+            Search = 2,
+            Exit = 9
+        }
+
         static void Main(string[] args) {
             String? pref, prefCaptalLocation;
             var i = 10;
 
             //入力処理
             Console.WriteLine("県庁所在地の登録【入力終了：Ctrl + 'Z'】");
-            
+
             while (true) {
                 if (i < 1) Environment.Exit(0);
                 //①都道府県の入力
@@ -35,7 +42,7 @@
                         Console.WriteLine();
                         i = 10;
                         continue;
-                    } else if(yorn.Equals("y", StringComparison.CurrentCultureIgnoreCase)) {
+                    } else if (yorn.Equals("y", StringComparison.CurrentCultureIgnoreCase)) {
                         prefOfficeDict[pref] = prefCaptalLocation;
                         i = 10;
                     } else {
@@ -53,34 +60,33 @@
             }
 
             Boolean endFlag = false;    //終了フラグ（無限ループを抜け出す用）
-            
+
+
+
             while (!endFlag) {
                 switch (menuDisp()) {
-                    case "1":                        //一覧出力処理
+                    case SelectMenu.Alldisp:
                         allDisp();
                         break;
-
-
-                    case "2"://検索処理
+                    case SelectMenu.Search:
                         searchPrefCaptalLocation();
                         break;
-
-
-                    case "9"://無限ループを抜ける
+                    case SelectMenu.Exit:
                         endFlag = true;
                         break;
                 }
+
             }
         }
 
         //メニュー表示
-        private static string? menuDisp() {
+        private static SelectMenu menuDisp() {
             Console.WriteLine("\n**** メニュー ****");
             Console.WriteLine("1：一覧表示");
             Console.WriteLine("2：検索");
             Console.WriteLine("9：終了");
             Console.Write(">");
-            var menuSelect = Console.ReadLine();
+            var menuSelect = (SelectMenu)int.Parse(Console.ReadLine());
             return menuSelect;
         }
 
@@ -98,7 +104,7 @@
         private static void searchPrefCaptalLocation() {
             Console.Write("都道府県:");
             String? searchPref = Console.ReadLine();
-            
+
             if (searchPref is null) {
                 Console.WriteLine("入力されていません");
                 return;
