@@ -19,7 +19,7 @@ namespace Exercise01 {
                     if (dict.ContainsKey(c)) {
                         dict[c]++;
                     } else {
-                        dict.Add(c, 1);
+                        dict[c] = 1;
                     }
                 }
             }
@@ -38,7 +38,7 @@ namespace Exercise01 {
                     if (sdict.ContainsKey(c)) {
                         sdict[c]++;
                     } else {
-                        sdict.Add(c, 1);
+                        sdict[c] = 1;
                     }
                 }
             }
