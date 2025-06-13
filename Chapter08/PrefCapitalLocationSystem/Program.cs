@@ -4,13 +4,16 @@
 
         static void Main(string[] args) {
             String? pref, prefCaptalLocation;
+            var i = 10;
 
             //入力処理
             Console.WriteLine("県庁所在地の登録【入力終了：Ctrl + 'Z'】");
             
             while (true) {
+                if (i < 1) Environment.Exit(0);
                 //①都道府県の入力
                 Console.Write("都道府県:");
+
                 pref = Console.ReadLine();
 
                 if (pref == null) break;    //無限ループを抜ける(Ctrl + 'Z')
@@ -27,14 +30,19 @@
                     //登録済みなら確認して上書き処理、上書きしない場合はもう一度都道府県の入力…①へ
                     Console.WriteLine("上書きしますか？(Y/N)");
                     var yorn = Console.ReadLine();
+                    if (yorn == null) break;
                     if (yorn.Equals("n", StringComparison.CurrentCultureIgnoreCase)) {
                         Console.WriteLine();
+                        i = 10;
                         continue;
                     } else if(yorn.Equals("y", StringComparison.CurrentCultureIgnoreCase)) {
                         prefOfficeDict[pref] = prefCaptalLocation;
+                        i = 10;
                     } else {
-                        Console.WriteLine("入力を終了します");
-                        break;
+                        Console.WriteLine("YまたはNで答えてください。");
+                        i--;
+                        Console.WriteLine("あと" + i + "回間違えるとプログラムを終了します");
+                        continue;
                     }
                 } else {
                     prefOfficeDict.Add(pref, prefCaptalLocation);
@@ -45,6 +53,7 @@
             }
 
             Boolean endFlag = false;    //終了フラグ（無限ループを抜け出す用）
+            
             while (!endFlag) {
                 switch (menuDisp()) {
                     case "1":                        //一覧出力処理
@@ -96,7 +105,7 @@
             }
 
             if (prefOfficeDict.ContainsKey(searchPref))
-                Console.WriteLine($"都道府県:{searchPref} 県庁所在地:{prefOfficeDict[searchPref]}");
+                Console.WriteLine($"{searchPref} の県庁所在地は{prefOfficeDict[searchPref]}です");
             else
                 Console.WriteLine("登録されていません");
         }
