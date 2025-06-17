@@ -3,7 +3,12 @@
         static void Main(string[] args) {
             // コンストラクタの呼び出し
             var abbrs = new Abbreviations();
+            Console.WriteLine(abbrs.Count);
+            Console.WriteLine();
 
+            if (abbrs.Remove("NTP")) Console.WriteLine(abbrs.Count);
+            if (!abbrs.Remove("NTP")) Console.WriteLine("削除できません");
+            Console.WriteLine();
             // Addメソッドの呼び出し例
             abbrs.Add("IOC", "国際オリンピック委員会");
             abbrs.Add("NPT", "核兵器不拡散条約");
