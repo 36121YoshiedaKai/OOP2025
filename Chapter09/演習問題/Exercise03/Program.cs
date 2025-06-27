@@ -1,16 +1,21 @@
-﻿namespace Exercise03 {
+﻿using System.Diagnostics;
+
+namespace Exercise03 {
     internal class Program {
         static void Main(string[] args) {
-            var tw = new TimeWatch();
+            //var tw = new TimeWatch();
+            var tw = new Stopwatch();
             tw.Start();
             // スリープする
-            Thread.Sleep(1000);
-            TimeSpan duration = tw.Stop();
-            Console.WriteLine("処理時間は{0}ミリ秒でした", duration.TotalMilliseconds);
+            Thread.Sleep(300000);
+            tw.Stop();
 
+            TimeSpan duration = tw.Elapsed;
+            Console.WriteLine("処理時間は{0}ミリ秒でした", duration.TotalMilliseconds);
+            
         }
     }
-
+    
     class TimeWatch {
         private DateTime _time;
         
@@ -21,8 +26,8 @@
 
         public TimeSpan Stop() {
             //経過時間を返却する
-            var progress = DateTime.Now - _time;
-            return progress; // ←エラーを出さないためだけのダミー（使い方も参考にしない）
+            
+            return DateTime.Now - _time; 
         }
     }
 }
