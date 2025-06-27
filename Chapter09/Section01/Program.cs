@@ -3,7 +3,7 @@
 namespace Section01 {
     internal class Program {
         static void Main(string[] args) {
-            //var today = new DateTime(2025, 7, 12); //日付
+            //var today = new DateTime(2025, 7, 12); //日付p.196あたりから
             //var now = DateTime.Now;     //日付と時刻
 
 
@@ -33,9 +33,20 @@ namespace Section01 {
             var dayofweek = culture.DateTimeFormat.GetDayName(b.DayOfWeek);
             Console.WriteLine($"{str}は{dayofweek}です");
 
+            //日数経過
             var today = DateTime.Today;
             var fday = today - b;
-            Console.WriteLine($"生まれてから{fday.Days}日目です");
+            Console.WriteLine($"生まれてから{fday.TotalDays}日目です");
+
+            //歳
+            var old = today.Year - b.Year;
+            if (today < b.AddYears(old))old --;
+
+            Console.WriteLine($"あなたは{ old}歳です！");
+
+            //１月１日から何日か
+            Console.WriteLine(today.DayOfYear);
+            
 
             //うるう年
             Console.Write("西暦入力:");
