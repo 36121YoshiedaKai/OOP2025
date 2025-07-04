@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics.Metrics;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
@@ -20,22 +22,29 @@ namespace CarReportSystem {
         }
 
         private void btRCAdd_Click(object sender, EventArgs e) {
-            var carReport = new CarReport {
-                Date = dptDate.Value,
-                Author = cbAuthor.Text,
-                Maker = GetRadioButtonMaker(),
-                CarName = cbCarName.Text,
-                Report = tbReport.Text,
-                Picture = pbPicture.Image,
-            };
-            listCarReport.Add(carReport);
-            setCbAuthor(cbAuthor.Text);
-            setCbCarName(cbCarName.Text);
-            InputItemesAllClear();
+            if ((string.IsNullOrEmpty(cbAuthor.Text)) ||
+                (string.IsNullOrEmpty(cbCarName.Text))) {
+                tsslbMessage.Text = "記入者、または車名が未記入です";
+                return;
+            } else {
+                tsslbMessage.Text = string.Empty;
+                var carReport = new CarReport {
+                    Date = dptDate.Value,
+                    Author = cbAuthor.Text,
+                    Maker = getRadioButtonMaker(),
+                    CarName = cbCarName.Text,
+                    Report = tbReport.Text,
+                    Picture = pbPicture.Image,
+                };
+                listCarReport.Add(carReport);
+                setCbAuthor(cbAuthor.Text);
+                setCbCarName(cbCarName.Text);
+                inputItemesAllClear();
+            }
         }
 
 
-        private void InputItemesAllClear() {
+        private void inputItemesAllClear() {
             dptDate.Value = DateTime.Today;
             cbAuthor.Text = string.Empty;
             if (rbToyota.Checked) rbToyota.Checked = false;
@@ -53,7 +62,7 @@ namespace CarReportSystem {
 
 
 
-        private CarReport.MakerGroup GetRadioButtonMaker() {
+        private CarReport.MakerGroup getRadioButtonMaker() {
 
             if (rbToyota.Checked) return CarReport.MakerGroup.トヨタ;
             if (rbNissan.Checked) return CarReport.MakerGroup.日産;
@@ -65,20 +74,20 @@ namespace CarReportSystem {
 
         }
 
+        //レコードの呼び出し
         private void dgvRecode_Click(object sender, EventArgs e) {
-            if (dgvRecode.RowCount == 0) {
+            if (dgvRecode.RowCount == 0) return;
 
-            } else {
-                dptDate.Value = (DateTime)dgvRecode.CurrentRow.Cells["Date"].Value;
-                cbAuthor.Text = (String)dgvRecode.CurrentRow.Cells["Author"].Value;
-                setRadioButtonMaker((CarReport.MakerGroup)dgvRecode.CurrentRow.Cells["Maker"].Value);
-                cbCarName.Text = (String)dgvRecode.CurrentRow.Cells["CarName"].Value;
-                tbReport.Text = (String)dgvRecode.CurrentRow.Cells["Report"].Value;
-                pbPicture.Image = (Image)dgvRecode.CurrentRow.Cells["Picture"].Value;
-            }
+            dptDate.Value = (DateTime)dgvRecode.CurrentRow.Cells["Date"].Value;
+            cbAuthor.Text = (string)dgvRecode.CurrentRow.Cells["Author"].Value;
+            setRadioButtonMaker((CarReport.MakerGroup)dgvRecode.CurrentRow.Cells["Maker"].Value);
+            cbCarName.Text = (string)dgvRecode.CurrentRow.Cells["CarName"].Value;
+            tbReport.Text = (string)dgvRecode.CurrentRow.Cells["Report"].Value;
+            pbPicture.Image = (Image)dgvRecode.CurrentRow.Cells["Picture"].Value;
 
         }
 
+        //ラジオボタン
         private void setRadioButtonMaker(CarReport.MakerGroup targetMaker) {
             switch (targetMaker) {
                 case CarReport.MakerGroup.トヨタ:
@@ -100,13 +109,20 @@ namespace CarReportSystem {
                     rbather.Checked = true;
                     break;
                 default:
+                    rbToyota.Checked = false;
+                    rbNissan.Checked = false;
+                    rbHonda.Checked = false;
+                    rbSubaru.Checked = false;
+                    rbImport.Checked = false;
+                    rbather.Checked = false;
                     break;
+
             }
         }
 
 
 
-
+        //記録者登録
         private void setCbAuthor(string author) {
             //登録済みか確認
             if (!cbAuthor.Items.Contains(author))
@@ -114,7 +130,7 @@ namespace CarReportSystem {
                 cbAuthor.Items.Add(author);
 
         }
-
+        //車の名前登録
         private void setCbCarName(string carName) {
             //登録済みか確認
             if (!cbCarName.Items.Contains(carName))
@@ -122,25 +138,46 @@ namespace CarReportSystem {
                 cbCarName.Items.Add(carName);
 
         }
-
+        //新規
         private void btNewRecord_Click(object sender, EventArgs e) {
-            InputItemesAllClear();
+            inputItemesAllClear();
         }
-
+        //修正
         private void btRCModfy_Click(object sender, EventArgs e) {
-
-        }
-        private void btRCDelete_Click(object sender, EventArgs e) {
-            if (dgvRecode.RowCount == 0) {
-
+            if (dgvRecode.RowCount == 0) return;
+            //if ((dgvRecode.CurrentRow is null) ||
+            //(!dgvRecode.CurrentRow.Selected)) return;
+            if ((string.IsNullOrEmpty(cbAuthor.Text)) ||
+                (string.IsNullOrEmpty(cbCarName.Text))) {
+                tsslbMessage.Text = "記入者、または車名が未記入です";
+                return;
             } else {
+                tsslbMessage.Text = string.Empty;
                 int index = dgvRecode.CurrentRow.Index;
-
-                listCarReport.RemoveAt(index);
+                listCarReport[index].Date = dptDate.Value;
+                listCarReport[index].Author = cbAuthor.Text;
+                listCarReport[index].Maker = getRadioButtonMaker();
+                listCarReport[index].CarName = cbCarName.Text;
+                listCarReport[index].Report = tbReport.Text;
+                listCarReport[index].Picture = pbPicture.Image;
+                setCbAuthor(cbAuthor.Text);
+                setCbCarName(cbCarName.Text);
+                dgvRecode.Refresh();
+                inputItemesAllClear();
             }
         }
+        //削除
+        private void btRCDelete_Click(object sender, EventArgs e) {
+            //if (dgvRecode.RowCount != 0) {
+            if ((dgvRecode.CurrentRow is null) ||
+                (!dgvRecode.CurrentRow.Selected)) return;
+            int index = dgvRecode.CurrentRow.Index;
+
+            listCarReport.RemoveAt(index);
+            //}
+        }
         private void Form1_Load(object sender, EventArgs e) {
-            InputItemesAllClear();
+            inputItemesAllClear();
         }
 
 
