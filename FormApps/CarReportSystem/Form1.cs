@@ -131,7 +131,12 @@ namespace CarReportSystem {
 
         }
         private void btRCDelete_Click(object sender, EventArgs e) {
-            foreach (var del in listCarReport) {
+            if (dgvRecode.RowCount == 0) {
+
+            } else {
+                int index = dgvRecode.CurrentRow.Index;
+
+                listCarReport.RemoveAt(index);
             }
         }
         private void Form1_Load(object sender, EventArgs e) {
