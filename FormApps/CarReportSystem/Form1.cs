@@ -3,10 +3,17 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Diagnostics.Metrics;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Configuration;
+using System.Xml;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
         BindingList<CarReport> listCarReport = new BindingList<CarReport>();
+
+        //設定クラスのインスタンス生成
+        Settings settings = new Settings();
 
         public Form1() {
             InitializeComponent();
@@ -194,15 +201,39 @@ namespace CarReportSystem {
             if (cdColor.ShowDialog() == DialogResult.OK) {
 
                 this.BackColor = cdColor.Color;
+                //設定ファイルへ保存
+                settings.MainFormBackColor = cdColor.Color.ToArgb();//背景色を設定インスタンスへ設定
+
             }
         }
 
         private void Form1_Load(object sender, EventArgs e) {
             inputItemesAllClear();
 
+
             //交互に色を設定　データグリッドビュー
             dgvRecode.DefaultCellStyle.BackColor = Color.LightGreen;
             dgvRecode.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+            //設定ファイルを読み込み背景色を設定する（逆シリアル化）
+            try {
+                using (var reader = XmlReader.Create("settings.xml")) {
+                    var serializer = new XmlSerializer(typeof(Settings));
+                    var set = serializer.Deserialize(reader) as Settings;
+                    if (set is null) {
+                        return;
+                    }
+
+                    Color color = Color.FromArgb(set.MainFormBackColor);
+                    BackColor = color;
+
+                }
+            }
+            catch (Exception ex) {
+
+                MessageBox.Show(ex.Message);
+
+            }
+
         }
 
         //ファイルセーブ
@@ -220,7 +251,7 @@ namespace CarReportSystem {
                         bf.Serialize(fs, listCarReport);
                     }
                 }
-                catch (Exception　ex) {
+                catch (Exception ex) {
                     tsslbMessage.Text = "ファイル書き出しエラー";
                     MessageBox.Show(ex.Message);
                 }
@@ -238,7 +269,7 @@ namespace CarReportSystem {
 #pragma warning restore SYSLIB0011 // 型またはメンバーが旧型式です
 
                     using (FileStream fs = File.Open(ofdPicFileOpen.FileName,
-                        FileMode.Open ,FileAccess.Read)) {
+                        FileMode.Open, FileAccess.Read)) {
 
                         listCarReport = (BindingList<CarReport>)bf.Deserialize(fs);
                         dgvRecode.DataSource = listCarReport;
@@ -251,8 +282,8 @@ namespace CarReportSystem {
                             setCbAuthor(item.Author);
                             setCbCarName(item.CarName);
                         }
-                        
-                        
+
+
 
                     }
 
@@ -270,6 +301,17 @@ namespace CarReportSystem {
 
         private void 開くToolStripMenuItem_Click(object sender, EventArgs e) {
             reportOpenFile();
+        }
+
+        //フォームが閉じたとき呼ばれる
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+
+            //設定ファイルへ色情報を保存する処理（シリアル化）
+            using (var writer = XmlWriter.Create("settings.xml")) {
+                var serializer = new XmlSerializer(settings.GetType());
+                serializer.Serialize(writer, settings);
+            }
+
         }
     }
 }
