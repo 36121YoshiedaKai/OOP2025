@@ -15,11 +15,28 @@ namespace Exercise01 {
             var obj = Deserialize(jsonString);
             Console.WriteLine(obj);
 
-        }
 
+
+            //問題12.1.2
+            Employee[] employees = [
+                new () {
+                    Id = 123,
+                    Name = "山田太郎",
+                    HireDate = new DateTime(2018, 10, 1),
+                },
+                new () {
+                    Id = 198,
+                    Name = "田中華子",
+                    HireDate = new DateTime(2020, 4, 1),
+                },
+            ];
+            Serialize("employees.json", employees);
+
+        }
 
         static string Serialize(Employee emp) {
             var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true,
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
@@ -27,14 +44,26 @@ namespace Exercise01 {
         }
 
         static Employee? Deserialize(string text) {
-            return JsonSerializer.Deserialize<Employee>(text);
+            var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+            };
+            return JsonSerializer.Deserialize<Employee>(text,options);
         }
+
+        //問題12.1.2
+        //シリアル化してファイルへ出力する
+        static void Serialize(string filePath, IEnumerable<Employee> employees) {
+
+        }
+
+
     }
-}
+    public record Employee {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public DateTime HireDate { get; set; }
+    }
 
-public record Employee {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public DateTime HireDate { get; set; }
-}
 
+}
