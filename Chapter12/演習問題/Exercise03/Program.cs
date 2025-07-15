@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Exercise03 {
     internal class Program {
@@ -18,8 +20,11 @@ namespace Exercise03 {
 
         }
 
-        static void ToXmlFile(Employee[] employees) { 
-
+        static void ToXmlFile(Employee[] employees) {
+            using (var writer = XmlWriter.Create("employees.xml")) {
+                var serializer = new XmlSerializer(employees.GetType());
+                serializer.Serialize(writer, employees);
+            }
 
         }
 }
