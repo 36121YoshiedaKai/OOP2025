@@ -78,8 +78,8 @@ namespace Exercise01 {
             var options = new JsonSerializerOptions {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
-            var emp = JsonSerializer.Deserialize<IEnumerable<Employee>>(text,options);
-            return emp?.ToArray() ?? new Employee[0];
+            var emp = JsonSerializer.Deserialize<Employee[]>(text,options);
+            return emp ?? [];
         }
 
 

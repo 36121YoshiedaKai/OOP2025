@@ -1,13 +1,21 @@
-﻿namespace Exercise03 {
+﻿using System.Text.Json;
+
+namespace Exercise03 {
     internal class Program {
         static void Main(string[] args) {
             var employees = Deserialize("employees.json");
             ToXmlFile(employees);
         }
 
-        static Employee[] Deserialize(string filePath) { 
-          
-            
+        static Employee[] Deserialize(string filePath) {
+
+            var text = File.ReadAllText(filePath);
+            var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+            var emp = JsonSerializer.Deserialize<Employee[]>(text, options);
+            return emp ?? [];
+
         }
 
         static void ToXmlFile(Employee[] employees) { 
