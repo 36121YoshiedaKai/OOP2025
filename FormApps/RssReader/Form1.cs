@@ -15,7 +15,7 @@ namespace RssReader {
             using (var hc = new HttpClient()) {
 
                 string xml = await hc.GetStringAsync(tbUrl.Text);
-                XDocument xdoc =  XDocument.Parse(xml);
+                XDocument xdoc = XDocument.Parse(xml);
 
                 //var url = hc.OpenRead(tbUrl.Text);
                 //XDocument xdoc = XDocument.Load(url);   //RSS‚ÌŽæ“¾
@@ -23,8 +23,8 @@ namespace RssReader {
                 //RSS‚ð‰ðÍ‚µ‚Ä•K—v‚È—v‘f‚ðŽæ“¾
                 items = xdoc.Root.Descendants("item")
                     .Select(x => new ItemData {
-                        Title = (string)x.Element("title"),
-                        Link = (string)x.Element("link"),
+                        Title = (string?)x.Element("title"),
+                        Link = (string?)x.Element("link"),
                     }).ToList();
 
 
@@ -36,6 +36,19 @@ namespace RssReader {
                 items.ForEach(item => lbTitles.Items.Add(item.Title));
 
             }
+
+            
+
+        }
+
+        private void lbTitles_Click(object sender, EventArgs e) {
+            foreach (var item in items) {
+                if (item.Title == lbTitles.SelectedItem) {
+                    webView21.Source = new Uri(item.Link);
+                }
+            }
+            
+            //webView21.Source = new Uri("https://yahoo.co.jp");
         }
     }
 }
