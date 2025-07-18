@@ -11,10 +11,14 @@ namespace RssReader {
             InitializeComponent();
         }
 
-        private void btRssGet_Click(object sender, EventArgs e) {
-            using (var wc = new WebClient()) {
-                var url = wc.OpenRead(tbUrl.Text);
-                XDocument xdoc = XDocument.Load(url);   //RSS‚Ìæ“¾
+        private async void btRssGet_Click(object sender, EventArgs e) {
+            using (var hc = new HttpClient()) {
+
+                string xml = await hc.GetStringAsync(tbUrl.Text);
+                XDocument xdoc =  XDocument.Parse(xml);
+
+                //var url = hc.OpenRead(tbUrl.Text);
+                //XDocument xdoc = XDocument.Load(url);   //RSS‚Ìæ“¾
 
                 //RSS‚ğ‰ğÍ‚µ‚Ä•K—v‚È—v‘f‚ğæ“¾
                 items = xdoc.Root.Descendants("item")
