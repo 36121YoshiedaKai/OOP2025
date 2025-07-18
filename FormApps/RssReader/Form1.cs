@@ -20,7 +20,9 @@ namespace RssReader {
                 items = xdoc.Root.Descendants("item")
                     .Select(x => new ItemData {
                         Title = (string)x.Element("title"),
+                        Link = (string)x.Element("link"),
                     }).ToList();
+
 
                 //リストボックスへタイトル表示
                 lbTitles.Items.Clear();
