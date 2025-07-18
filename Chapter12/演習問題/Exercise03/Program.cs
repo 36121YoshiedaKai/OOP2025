@@ -22,7 +22,11 @@ namespace Exercise03 {
 
         static void ToXmlFile(Employee[] employees) {
             using (var writer = XmlWriter.Create("employees.xml")) {
-                var serializer = new XmlSerializer(employees.GetType());
+                XmlRootAttribute xRoot = new XmlRootAttribute {
+                    ElementName = "Employees"
+                };
+                var serializer = new XmlSerializer(employees.GetType(),xRoot);
+                //var serializer = new XmlSerializer(typeof(Employee),xRoot);
                 serializer.Serialize(writer, employees);
             }
 
