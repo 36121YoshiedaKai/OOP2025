@@ -6,6 +6,7 @@ namespace RssReader {
     public partial class Form1 : Form {
 
         private List<ItemData> items;
+        
 
         public Form1() {
             InitializeComponent();
@@ -37,18 +38,31 @@ namespace RssReader {
 
             }
 
-            
+
 
         }
 
         private void lbTitles_Click(object sender, EventArgs e) {
-            foreach (var item in items) {
-                if (item.Title == lbTitles.SelectedItem) {
-                    webView21.Source = new Uri(item.Link);
-                }
-            }
-            
+            webView21.Source = new Uri(items[lbTitles.SelectedIndex].Link);
+            //foreach (var item in items) {
+            //    if (item.Title == lbTitles.SelectedItem) {
+            //        webView21.Source = new Uri(item.Link ?? "https://yahoo.co.jp");
+            //    }
+            //}
+
             //webView21.Source = new Uri("https://yahoo.co.jp");
+        }
+
+        private void btBack_Click(object sender, EventArgs e) {
+            if (webView21.CanGoBack) {
+                webView21.GoBack();
+            }
+        }
+
+        private void btGo_Click(object sender, EventArgs e) {
+            if (webView21.CanGoForward) {
+                webView21.GoForward();
+            }
         }
     }
 }
