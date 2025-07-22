@@ -26,15 +26,15 @@ namespace RssReader {
         }
 
         private async void btRssGet_Click(object sender, EventArgs e) {
-            foreach (var item in rssUrlDict) {
-                if (cbUrl.Text == item.Key) {
-                    cbUrl.Text = item.Value;
-                }
-            }
+            //foreach (var item in rssUrlDict) {
+            //    if (cbUrl.Text == item.Key) {
+            //        cbUrl.Text = item.Value;
+            //    }
+            //}
             
             try {
                 using (var hc = new HttpClient()) {
-                    string xml = await hc.GetStringAsync(cbUrl.Text);
+                    string xml = await hc.GetStringAsync(getRssUrl(cbUrl.Text));
                     XDocument xdoc = XDocument.Parse(xml);
 
                     //var url = hc.OpenRead(cbUrl.Text);
@@ -62,12 +62,19 @@ namespace RssReader {
                 throw;
             }
 
-            foreach (var item in rssUrlDict) {
-                if (item.Value == cbUrl.Text) {
-                    cbUrl.Text = item.Key;
-                }
-            }
+            //foreach (var item in rssUrlDict) {
+            //    if (item.Value == cbUrl.Text) {
+            //        cbUrl.Text = item.Key;
+            //    }
+            //}
 
+        }
+        //コンボボックスから文字列をチェックしてアクセス可能なURLを返却する
+        private string getRssUrl(string str) {
+            if (rssUrlDict.ContainsKey(str)) {
+                return rssUrlDict[str];
+            }
+            return str;
         }
 
 
