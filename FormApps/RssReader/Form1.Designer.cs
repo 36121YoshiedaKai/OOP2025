@@ -23,22 +23,14 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            tbUrl = new TextBox();
             btRssGet = new Button();
             lbTitles = new ListBox();
-            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            wvRssLink = new Microsoft.Web.WebView2.WinForms.WebView2();
             btBack = new Button();
             btGo = new Button();
-            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
+            cbUrl = new ComboBox();
+            ((System.ComponentModel.ISupportInitialize)wvRssLink).BeginInit();
             SuspendLayout();
-            // 
-            // tbUrl
-            // 
-            tbUrl.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            tbUrl.Location = new Point(26, 34);
-            tbUrl.Name = "tbUrl";
-            tbUrl.Size = new Size(553, 33);
-            tbUrl.TabIndex = 0;
             // 
             // btRssGet
             // 
@@ -63,17 +55,18 @@
             lbTitles.TabIndex = 2;
             lbTitles.Click += lbTitles_Click;
             // 
-            // webView21
+            // wvRssLink
             // 
-            webView21.AllowExternalDrop = true;
-            webView21.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            webView21.CreationProperties = null;
-            webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(26, 335);
-            webView21.Name = "webView21";
-            webView21.Size = new Size(662, 310);
-            webView21.TabIndex = 3;
-            webView21.ZoomFactor = 1D;
+            wvRssLink.AllowExternalDrop = true;
+            wvRssLink.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            wvRssLink.CreationProperties = null;
+            wvRssLink.DefaultBackgroundColor = Color.White;
+            wvRssLink.Location = new Point(26, 335);
+            wvRssLink.Name = "wvRssLink";
+            wvRssLink.Size = new Size(662, 310);
+            wvRssLink.TabIndex = 3;
+            wvRssLink.ZoomFactor = 1D;
+            wvRssLink.NavigationCompleted += wvRssLink_NavigationCompleted;
             // 
             // btBack
             // 
@@ -95,31 +88,39 @@
             btGo.UseVisualStyleBackColor = true;
             btGo.Click += btGo_Click;
             // 
+            // cbUrl
+            // 
+            cbUrl.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            cbUrl.FormattingEnabled = true;
+            cbUrl.Location = new Point(26, 34);
+            cbUrl.Name = "cbUrl";
+            cbUrl.Size = new Size(553, 33);
+            cbUrl.TabIndex = 6;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 647);
+            Controls.Add(cbUrl);
             Controls.Add(btGo);
             Controls.Add(btBack);
-            Controls.Add(webView21);
+            Controls.Add(wvRssLink);
             Controls.Add(lbTitles);
             Controls.Add(btRssGet);
-            Controls.Add(tbUrl);
             Name = "Form1";
             Text = "RSSリーダー";
-            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
+            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)wvRssLink).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private TextBox tbUrl;
         private Button btRssGet;
         private ListBox lbTitles;
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
+        private Microsoft.Web.WebView2.WinForms.WebView2 wvRssLink;
         private Button btBack;
         private Button btGo;
+        private ComboBox cbUrl;
     }
 }

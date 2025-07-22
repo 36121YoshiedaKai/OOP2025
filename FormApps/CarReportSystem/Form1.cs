@@ -236,7 +236,7 @@ namespace CarReportSystem {
             } else {
                 tsslbMessage.Text = "設定ファイルがありません";
             }
-  
+
         }
 
         //ファイルセーブ
