@@ -6,7 +6,19 @@ namespace RssReader {
     public partial class Form1 : Form {
 
         private List<ItemData> items;
-     
+
+        Dictionary<string, string> rssUrlDict = new Dictionary<string, string>(){
+            { "主要", "https://news.yahoo.co.jp/rss/topics/top-picks.xml" },
+            { "国内", "https://news.yahoo.co.jp/rss/topics/domestic.xml" },
+            { "国際", "https://news.yahoo.co.jp/rss/topics/world.xml" },
+            { "経済", "https://news.yahoo.co.jp/rss/topics/business.xml" },
+            { "エンタメ", "https://news.yahoo.co.jp/rss/topics/entertainment.xml" },
+            { "スポーツ", "https://news.yahoo.co.jp/rss/topics/sports.xml" },
+            { "IT", "https://news.yahoo.co.jp/rss/topics/it.xml" },
+            { "科学", "https://news.yahoo.co.jp/rss/topics/science.xml" },
+            { "地域", "https://news.yahoo.co.jp/rss/topics/local.xml" },
+        };
+
 
 
         public Form1() {
@@ -14,6 +26,12 @@ namespace RssReader {
         }
 
         private async void btRssGet_Click(object sender, EventArgs e) {
+            foreach (var item in rssUrlDict) {
+                if (cbUrl.Text == item.Key) {
+                    cbUrl.Text = item.Value;
+                }
+            }
+            
             try {
                 using (var hc = new HttpClient()) {
                     string xml = await hc.GetStringAsync(cbUrl.Text);
@@ -44,10 +62,14 @@ namespace RssReader {
                 throw;
             }
 
-
-
+            foreach (var item in rssUrlDict) {
+                if (item.Value == cbUrl.Text) {
+                    cbUrl.Text = item.Key;
+                }
+            }
 
         }
+
 
         private void lbTitles_Click(object sender, EventArgs e) {
             if (lbTitles is not null && lbTitles.SelectedItem != null) {
@@ -76,18 +98,15 @@ namespace RssReader {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/top-picks.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/domestic.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/world.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/business.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/entertainment.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/sports.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/it.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/science.xml");
-            setCbUrl("https://news.yahoo.co.jp/rss/topics/local.xml");
+            foreach (var item in rssUrlDict) {
+                setCbUrl(item.Key);
+            }
 
             GoBtset();
         }
+
+
+
 
         private void wvRssLink_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e) {
             GoBtset();
