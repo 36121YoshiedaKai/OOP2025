@@ -31,7 +31,7 @@ namespace RssReader {
             //        cbUrl.Text = item.Value;
             //    }
             //}
-            
+
             try {
                 using (var hc = new HttpClient()) {
                     string xml = await hc.GetStringAsync(getRssUrl(cbUrl.Text));
@@ -132,5 +132,15 @@ namespace RssReader {
 
         }
 
+        private void btFavorite_Click(object sender, EventArgs e) {
+            var text = tbFavorite.Text;
+            if (text != null && cbUrl.Text != null) {
+                if (!rssUrlDict.ContainsKey(text)) {
+                    rssUrlDict.Add(text, cbUrl.Text);
+                }
+                setCbUrl(text);
+
+            }
+        }
     }
 }

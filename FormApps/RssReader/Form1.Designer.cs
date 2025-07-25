@@ -29,6 +29,8 @@
             btBack = new Button();
             btGo = new Button();
             cbUrl = new ComboBox();
+            tbFavorite = new TextBox();
+            btFavorite = new Button();
             ((System.ComponentModel.ISupportInitialize)wvRssLink).BeginInit();
             SuspendLayout();
             // 
@@ -97,11 +99,30 @@
             cbUrl.Size = new Size(553, 33);
             cbUrl.TabIndex = 6;
             // 
+            // tbFavorite
+            // 
+            tbFavorite.Location = new Point(188, 5);
+            tbFavorite.Name = "tbFavorite";
+            tbFavorite.Size = new Size(391, 23);
+            tbFavorite.TabIndex = 7;
+            // 
+            // btFavorite
+            // 
+            btFavorite.Location = new Point(585, 4);
+            btFavorite.Name = "btFavorite";
+            btFavorite.Size = new Size(75, 23);
+            btFavorite.TabIndex = 8;
+            btFavorite.Text = "お気に入り";
+            btFavorite.UseVisualStyleBackColor = true;
+            btFavorite.Click += btFavorite_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 647);
+            Controls.Add(btFavorite);
+            Controls.Add(tbFavorite);
             Controls.Add(cbUrl);
             Controls.Add(btGo);
             Controls.Add(btBack);
@@ -113,6 +134,7 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)wvRssLink).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -122,5 +144,7 @@
         private Button btBack;
         private Button btGo;
         private ComboBox cbUrl;
+        private TextBox tbFavorite;
+        private Button btFavorite;
     }
 }
