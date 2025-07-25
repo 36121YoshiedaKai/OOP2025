@@ -31,6 +31,7 @@
             cbUrl = new ComboBox();
             tbFavorite = new TextBox();
             btFavorite = new Button();
+            btDel = new Button();
             ((System.ComponentModel.ISupportInitialize)wvRssLink).BeginInit();
             SuspendLayout();
             // 
@@ -47,13 +48,13 @@
             // 
             // lbTitles
             // 
-            lbTitles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lbTitles.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lbTitles.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
             lbTitles.FormattingEnabled = true;
             lbTitles.ItemHeight = 21;
             lbTitles.Location = new Point(26, 73);
             lbTitles.Name = "lbTitles";
-            lbTitles.Size = new Size(662, 256);
+            lbTitles.Size = new Size(709, 256);
             lbTitles.TabIndex = 2;
             lbTitles.Click += lbTitles_Click;
             // 
@@ -65,7 +66,7 @@
             wvRssLink.DefaultBackgroundColor = Color.White;
             wvRssLink.Location = new Point(26, 335);
             wvRssLink.Name = "wvRssLink";
-            wvRssLink.Size = new Size(662, 310);
+            wvRssLink.Size = new Size(709, 310);
             wvRssLink.TabIndex = 3;
             wvRssLink.ZoomFactor = 1D;
             wvRssLink.NavigationCompleted += wvRssLink_NavigationCompleted;
@@ -116,11 +117,22 @@
             btFavorite.UseVisualStyleBackColor = true;
             btFavorite.Click += btFavorite_Click;
             // 
+            // btDel
+            // 
+            btDel.Location = new Point(666, 4);
+            btDel.Name = "btDel";
+            btDel.Size = new Size(75, 23);
+            btDel.TabIndex = 9;
+            btDel.Text = "削除";
+            btDel.UseVisualStyleBackColor = true;
+            btDel.Click += btDel_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 647);
+            ClientSize = new Size(747, 647);
+            Controls.Add(btDel);
             Controls.Add(btFavorite);
             Controls.Add(tbFavorite);
             Controls.Add(cbUrl);
@@ -131,6 +143,7 @@
             Controls.Add(btRssGet);
             Name = "Form1";
             Text = "RSSリーダー";
+            FormClosed += Form1_FormClosed;
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)wvRssLink).EndInit();
             ResumeLayout(false);
@@ -146,5 +159,6 @@
         private ComboBox cbUrl;
         private TextBox tbFavorite;
         private Button btFavorite;
+        private Button btDel;
     }
 }

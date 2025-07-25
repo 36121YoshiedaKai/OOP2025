@@ -1,6 +1,10 @@
 using System.Net;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RssReader {
     public partial class Form1 : Form {
@@ -109,6 +113,29 @@ namespace RssReader {
                 setCbUrl(item.Key);
             }
 
+            //if (File.Exists("rssUrlDict.xml")) {
+            //    try {
+            //        using (var reader = XmlReader.Create("rssUrlDict.xml")) {
+            //            var serializer = new XmlSerializer(typeof(Dictionary<string, string>));
+            //            var set = serializer.Deserialize(reader) as Dictionary<string, string>;
+            //            if (set is null) {
+            //                return;
+            //            }
+            //            foreach (var item in set) {
+            //                if (!rssUrlDict.ContainsKey(item.Key)) {
+            //                    rssUrlDict.Add(item.Key, item.Value);
+            //                }
+            //            }
+
+            //        }
+            //    }
+            //    catch (Exception ex) {
+
+            //        MessageBox.Show(ex.Message);
+
+            //    }
+            //}
+
             GoBtset();
         }
 
@@ -140,6 +167,29 @@ namespace RssReader {
                 }
                 setCbUrl(text);
 
+            }
+        }
+
+        //ÉtÉHÅ[ÉÄÇ™ï¬Ç∂ÇΩÇ∆Ç´åƒÇŒÇÍÇÈ
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+            //try {
+            //    using (var writer = XmlWriter.Create("rssUrlDict.xml")) {
+            //        var serializer = new XmlSerializer(typeof(Dictionary<string, string>));
+            //        serializer.Serialize(writer, rssUrlDict);
+            //    }
+            //}
+            //catch (Exception ex) {
+            //    MessageBox.Show(ex.Message);
+            //}
+
+
+
+        }
+
+        //çÌèú
+        private void btDel_Click(object sender, EventArgs e) {
+            if (cbUrl.SelectedIndex != -1) {
+                cbUrl.Items.RemoveAt(cbUrl.SelectedIndex);
             }
         }
     }
