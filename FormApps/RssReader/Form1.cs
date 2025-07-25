@@ -35,6 +35,9 @@ namespace RssReader {
             //        cbUrl.Text = item.Value;
             //    }
             //}
+            if (string.IsNullOrEmpty(cbUrl.Text)) {
+                return;
+            }
 
             try {
                 using (var hc = new HttpClient()) {
@@ -162,6 +165,11 @@ namespace RssReader {
         private void btFavorite_Click(object sender, EventArgs e) {
             var text = tbFavorite.Text;
             if (text != null && cbUrl.Text != null) {
+                foreach (var item in rssUrlDict) {
+                    if (item.Key == cbUrl.Text) {
+                        return;
+                    }
+                }
                 if (!rssUrlDict.ContainsKey(text)) {
                     rssUrlDict.Add(text, cbUrl.Text);
                 }
@@ -191,6 +199,34 @@ namespace RssReader {
             if (cbUrl.SelectedIndex != -1) {
                 cbUrl.Items.RemoveAt(cbUrl.SelectedIndex);
             }
+        }
+
+        private void lbTitles_DrawItem(object sender, DrawItemEventArgs e) {
+            var idx = e.Index;                                                      //描画対象の行
+            if (idx == -1) return;                                                  //範囲外なら何もしない
+            var sts = e.State;                                                      //セルの状態
+            var fnt = e.Font;                                                       //フォント
+            var _bnd = e.Bounds;                                                    //描画範囲(オリジナル)
+            var bnd = new RectangleF(_bnd.X, _bnd.Y, _bnd.Width, _bnd.Height);     //描画範囲(描画用)
+            var txt = (string)lbTitles.Items[idx];                                  //リストボックス内の文字
+            var bsh = new SolidBrush(lbTitles.ForeColor);                           //文字色
+            var sel = (DrawItemState.Selected == (sts & DrawItemState.Selected));   //選択行か
+            var odd = (idx % 2 == 1);                                               //奇数行か
+            var fore = Brushes.Gold;                                         //偶数行の背景色
+            var bak = Brushes.Salmon;                                           //奇数行の背景色
+
+            e.DrawBackground();                                                     //背景描画
+
+            //奇数項目の背景色を変える（選択行は除く）
+            if (odd && !sel) {
+                e.Graphics.FillRectangle(bak, bnd);
+            } else if (!odd && !sel) {
+                e.Graphics.FillRectangle(fore, bnd);
+            }
+
+            //文字を描画
+            e.Graphics.DrawString(txt, fnt, bsh, bnd);
+
         }
     }
 }

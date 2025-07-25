@@ -38,9 +38,9 @@
             // btRssGet
             // 
             btRssGet.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            btRssGet.Location = new Point(585, 34);
+            btRssGet.Location = new Point(538, 33);
             btRssGet.Name = "btRssGet";
-            btRssGet.Size = new Size(75, 32);
+            btRssGet.Size = new Size(75, 34);
             btRssGet.TabIndex = 1;
             btRssGet.Text = "取得";
             btRssGet.UseVisualStyleBackColor = true;
@@ -48,15 +48,17 @@
             // 
             // lbTitles
             // 
-            lbTitles.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbTitles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            lbTitles.DrawMode = DrawMode.OwnerDrawFixed;
             lbTitles.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
             lbTitles.FormattingEnabled = true;
             lbTitles.ItemHeight = 21;
-            lbTitles.Location = new Point(26, 73);
+            lbTitles.Location = new Point(26, 131);
             lbTitles.Name = "lbTitles";
-            lbTitles.Size = new Size(709, 256);
+            lbTitles.Size = new Size(237, 508);
             lbTitles.TabIndex = 2;
             lbTitles.Click += lbTitles_Click;
+            lbTitles.DrawItem += lbTitles_DrawItem;
             // 
             // wvRssLink
             // 
@@ -64,9 +66,9 @@
             wvRssLink.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             wvRssLink.CreationProperties = null;
             wvRssLink.DefaultBackgroundColor = Color.White;
-            wvRssLink.Location = new Point(26, 335);
+            wvRssLink.Location = new Point(270, 73);
             wvRssLink.Name = "wvRssLink";
-            wvRssLink.Size = new Size(709, 310);
+            wvRssLink.Size = new Size(591, 566);
             wvRssLink.TabIndex = 3;
             wvRssLink.ZoomFactor = 1D;
             wvRssLink.NavigationCompleted += wvRssLink_NavigationCompleted;
@@ -97,19 +99,19 @@
             cbUrl.FormattingEnabled = true;
             cbUrl.Location = new Point(26, 34);
             cbUrl.Name = "cbUrl";
-            cbUrl.Size = new Size(553, 33);
+            cbUrl.Size = new Size(506, 33);
             cbUrl.TabIndex = 6;
             // 
             // tbFavorite
             // 
-            tbFavorite.Location = new Point(188, 5);
+            tbFavorite.Location = new Point(26, 73);
             tbFavorite.Name = "tbFavorite";
-            tbFavorite.Size = new Size(391, 23);
+            tbFavorite.Size = new Size(156, 23);
             tbFavorite.TabIndex = 7;
             // 
             // btFavorite
             // 
-            btFavorite.Location = new Point(585, 4);
+            btFavorite.Location = new Point(188, 73);
             btFavorite.Name = "btFavorite";
             btFavorite.Size = new Size(75, 23);
             btFavorite.TabIndex = 8;
@@ -119,7 +121,7 @@
             // 
             // btDel
             // 
-            btDel.Location = new Point(666, 4);
+            btDel.Location = new Point(188, 102);
             btDel.Name = "btDel";
             btDel.Size = new Size(75, 23);
             btDel.TabIndex = 9;
@@ -131,7 +133,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(747, 647);
+            ClientSize = new Size(873, 648);
             Controls.Add(btDel);
             Controls.Add(btFavorite);
             Controls.Add(tbFavorite);
