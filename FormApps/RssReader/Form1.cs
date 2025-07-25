@@ -1,10 +1,15 @@
 using System.Net;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using File = System.IO.File;
 
 namespace RssReader {
     public partial class Form1 : Form {
@@ -39,10 +44,7 @@ namespace RssReader {
                 MessageBox.Show("何も入力されていません");
                 return;
             }
-            if (!Uri.IsWellFormedUriString(cbUrl.Text, UriKind.Absolute) || !cbUrl.Text.EndsWith(".xml")) {
-                MessageBox.Show("URLが違います");
-                return;
-            }
+            
 
             try {
                 using (var hc = new HttpClient()) {
@@ -86,6 +88,10 @@ namespace RssReader {
             if (rssUrlDict.ContainsKey(str)) {
                 return rssUrlDict[str];
             }
+            if (!Uri.IsWellFormedUriString(str, UriKind.Absolute) || !str.EndsWith(".xml")) {
+                MessageBox.Show("URLが違います 所要を返します");
+                return "https://news.yahoo.co.jp/rss/topics/top-picks.xml";
+            }
             return str;
         }
 
@@ -122,28 +128,15 @@ namespace RssReader {
                 setCbUrl(item.Key);
             }
 
-            //if (File.Exists("rssUrlDict.xml")) {
-            //    try {
-            //        using (var reader = XmlReader.Create("rssUrlDict.xml")) {
-            //            var serializer = new XmlSerializer(typeof(Dictionary<string, string>));
-            //            var set = serializer.Deserialize(reader) as Dictionary<string, string>;
-            //            if (set is null) {
-            //                return;
-            //            }
-            //            foreach (var item in set) {
-            //                if (!rssUrlDict.ContainsKey(item.Key)) {
-            //                    rssUrlDict.Add(item.Key, item.Value);
-            //                }
-            //            }
-
-            //        }
-            //    }
-            //    catch (Exception ex) {
-
-            //        MessageBox.Show(ex.Message);
-
-            //    }
-            //}
+            if (File.Exists("rssUrlDict.json")) {
+                var rssdata = Deserialize_f("rssUrlDict.json");
+                foreach (var item in rssdata) {
+                    if (!rssUrlDict.ContainsKey(item.Key)) {
+                        rssUrlDict.Add(item.Key, item.Value);
+                        setCbUrl(item.Key);
+                    }
+                }
+            }
 
             GoBtset();
         }
@@ -187,18 +180,7 @@ namespace RssReader {
 
         //フォームが閉じたとき呼ばれる
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
-            //try {
-            //    using (var writer = XmlWriter.Create("rssUrlDict.xml")) {
-            //        var serializer = new XmlSerializer(typeof(Dictionary<string, string>));
-            //        serializer.Serialize(writer, rssUrlDict);
-            //    }
-            //}
-            //catch (Exception ex) {
-            //    MessageBox.Show(ex.Message);
-            //}
-
-
-
+            Serialize("rssUrlDict.json", rssUrlDict);
         }
 
         //削除
@@ -235,6 +217,25 @@ namespace RssReader {
             //文字を描画
             e.Graphics.DrawString(txt, fnt, bsh, bnd);
 
+        }
+
+        static void Serialize(string filePath, Dictionary<string,string> employees) {
+            var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                WriteIndented = true
+            };
+            string jsonString = JsonSerializer.Serialize(employees, options);
+            File.WriteAllText(filePath, jsonString);
+        }
+
+        static Dictionary<string,string> Deserialize_f(string filePath) {
+            var text = File.ReadAllText(filePath);
+            var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+            var emp = JsonSerializer.Deserialize<Dictionary<string, string>>(text, options);
+            return emp ?? [];
         }
     }
 }
