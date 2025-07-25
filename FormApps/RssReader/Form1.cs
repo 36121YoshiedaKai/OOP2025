@@ -36,6 +36,11 @@ namespace RssReader {
             //    }
             //}
             if (string.IsNullOrEmpty(cbUrl.Text)) {
+                MessageBox.Show("âΩÇ‡ì¸óÕÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒ");
+                return;
+            }
+            if (!Uri.IsWellFormedUriString(cbUrl.Text, UriKind.Absolute) || !cbUrl.Text.EndsWith(".xml")) {
+                MessageBox.Show("URLÇ™à·Ç¢Ç‹Ç∑");
                 return;
             }
 
@@ -112,6 +117,7 @@ namespace RssReader {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
+            wvRssLink.Source = new Uri("https://yahoo.co.jp");
             foreach (var item in rssUrlDict) {
                 setCbUrl(item.Key);
             }
@@ -172,6 +178,7 @@ namespace RssReader {
                 }
                 if (!rssUrlDict.ContainsKey(text)) {
                     rssUrlDict.Add(text, cbUrl.Text);
+                    MessageBox.Show(text + "Ç™Ç®ãCÇ…ì¸ÇËìoò^Ç≥ÇÍÇ‹ÇµÇΩ");
                 }
                 setCbUrl(text);
 
@@ -197,6 +204,7 @@ namespace RssReader {
         //çÌèú
         private void btDel_Click(object sender, EventArgs e) {
             if (cbUrl.SelectedIndex != -1) {
+                MessageBox.Show(cbUrl.Text + "Ç™è¡ãéÇ≥ÇÍÇ‹ÇµÇΩ");
                 cbUrl.Items.RemoveAt(cbUrl.SelectedIndex);
             }
         }
