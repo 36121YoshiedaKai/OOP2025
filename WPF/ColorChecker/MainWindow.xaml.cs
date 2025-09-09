@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Reflection;
 
 namespace ColorChecker {
     /// <summary>
@@ -20,6 +21,7 @@ namespace ColorChecker {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            colorSelectComboBox.DataContext = GetColorList();
         }
 
         //すべてのスライダーから呼ばれるハンドラ
@@ -37,7 +39,8 @@ namespace ColorChecker {
 
 
             var mycolor = new MyColor {
-                Color = getbc.Color
+                Color = getbc.Color,
+                Name = GetColorNameFromColor(getbc.Color)
             };
             foreach (var item in stocList.Items) {
                 if (item is MyColor existingMyColor) {
@@ -45,10 +48,46 @@ namespace ColorChecker {
                         yescolor = true;
                         break;
                     }
-                } 
+                }
             }
             if (!yescolor) {
                 stocList.Items.Add(mycolor);
+            } else {
+                MessageBox.Show("その色は登録済みです。");
+            }
+        }
+
+        private MyColor[] GetColorList() {
+            return typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static)
+               .Select(i => new MyColor() { Color = (Color)i.GetValue(null), Name = i.Name }).ToArray();
+        }
+
+        private void colorSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (((ComboBox)sender).SelectedItem is MyColor mycolor) {
+                var color = mycolor.Color;
+
+                rSlider.Value = color.R;
+                gSlider.Value = color.G;
+                bSlider.Value = color.B;
+            }
+        }
+        private string GetColorNameFromColor(Color color) {
+            var colors = GetColorList();
+            foreach (var c in colors) {
+                if (c.Color.Equals(color)) {
+                    if (!string.IsNullOrEmpty(c.Name)) {
+                        return c.Name;
+                    }
+                }
+            }
+            return $"R:{color.R},G:{color.G},B:{color.B}";
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e) {
+            if (stocList.SelectedItem is MyColor selectedColor) {
+                stocList.Items.Remove(selectedColor);
+            } else {
+                MessageBox.Show("色が選択されていません。");
             }
         }
     }
