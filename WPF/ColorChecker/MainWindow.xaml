@@ -62,7 +62,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="stockButton" Grid.Row="0" Content="STOCK" FontSize="18" Margin="10" Click="stockButton_Click" />
             <Button x:Name="deleteButton" Grid.Row="1" Content="DELETE" FontSize="18" Margin="10" Click="deleteButton_Click"/>
-            <ListBox x:Name="stocList" Grid.Row="2" Margin="10,5" FontSize="16" >
+            <ListBox x:Name="stocList" Grid.Row="2" Margin="10,5" FontSize="16" SelectionChanged="stocList_SelectionChanged" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

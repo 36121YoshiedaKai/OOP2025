@@ -19,6 +19,10 @@ namespace ColorChecker {
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class MainWindow : Window {
+
+        MyColor currentCorlor;
+        
+ 
         public MainWindow() {
             InitializeComponent();
             colorSelectComboBox.DataContext = GetColorList();
@@ -31,6 +35,7 @@ namespace ColorChecker {
         }
 
         private void stockButton_Click(object sender, RoutedEventArgs e) {
+
             var getbc = colorArea.Background as SolidColorBrush;
             bool yescolor = false;
             if (getbc is null) {
@@ -38,20 +43,21 @@ namespace ColorChecker {
             }
 
 
-            var mycolor = new MyColor {
+
+            currentCorlor = new MyColor {
                 Color = getbc.Color,
                 Name = GetColorNameFromColor(getbc.Color)
             };
             foreach (var item in stocList.Items) {
                 if (item is MyColor existingMyColor) {
-                    if (existingMyColor.Color.Equals(mycolor.Color)) {
+                    if (existingMyColor.Color.Equals(currentCorlor.Color)) {
                         yescolor = true;
                         break;
                     }
                 }
             }
             if (!yescolor) {
-                stocList.Items.Add(mycolor);
+                stocList.Items.Add(currentCorlor);
             } else {
                 MessageBox.Show("その色は登録済みです。");
             }
@@ -88,6 +94,14 @@ namespace ColorChecker {
                 stocList.Items.Remove(selectedColor);
             } else {
                 MessageBox.Show("色が選択されていません。");
+            }
+        }
+
+        private void stocList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (stocList.SelectedItem is MyColor selectColor) {
+                rSlider.Value = selectColor.Color.R;
+                gSlider.Value = selectColor.Color.G;
+                bSlider.Value = selectColor.Color.B;
             }
         }
     }
