@@ -20,9 +20,9 @@ namespace ColorChecker {
     /// </summary>
     public partial class MainWindow : Window {
 
-        MyColor currentCorlor;
-        
- 
+        MyColor currentColor;
+
+
         public MainWindow() {
             InitializeComponent();
             colorSelectComboBox.DataContext = GetColorList();
@@ -31,7 +31,22 @@ namespace ColorChecker {
         //すべてのスライダーから呼ばれるハンドラ
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
 
-            colorArea.Background = new SolidColorBrush(Color.FromRgb((byte)rSlider.Value, (byte)gSlider.Value, (byte)bSlider.Value));
+            var color = Color.FromRgb((byte)rSlider.Value, (byte)gSlider.Value, (byte)bSlider.Value);
+            colorArea.Background = new SolidColorBrush(color);
+            UpdateColorCode(color);
+
+            bool flg1 = false;
+ 
+            foreach (var item in colorSelectComboBox.Items) {
+                if (item is MyColor myColor && myColor.Color.Equals(color)) {
+                    colorSelectComboBox.SelectedItem = myColor;
+                    flg1 = true;
+                    break;
+                } 
+            }
+            if (!flg1) {
+                colorSelectComboBox.SelectedIndex = -1;
+            }
         }
 
         private void stockButton_Click(object sender, RoutedEventArgs e) {
@@ -44,20 +59,20 @@ namespace ColorChecker {
 
 
 
-            currentCorlor = new MyColor {
+            currentColor = new MyColor {
                 Color = getbc.Color,
                 Name = GetColorNameFromColor(getbc.Color)
             };
             foreach (var item in stocList.Items) {
                 if (item is MyColor existingMyColor) {
-                    if (existingMyColor.Color.Equals(currentCorlor.Color)) {
+                    if (existingMyColor.Color.Equals(currentColor.Color)) {
                         yescolor = true;
                         break;
                     }
                 }
             }
             if (!yescolor) {
-                stocList.Items.Add(currentCorlor);
+                stocList.Items.Add(currentColor);
             } else {
                 MessageBox.Show("その色は登録済みです。");
             }
@@ -72,9 +87,7 @@ namespace ColorChecker {
             if (((ComboBox)sender).SelectedItem is MyColor mycolor) {
                 var color = mycolor.Color;
 
-                rSlider.Value = color.R;
-                gSlider.Value = color.G;
-                bSlider.Value = color.B;
+                setSliberval(color);
             }
         }
         private string GetColorNameFromColor(Color color) {
@@ -99,9 +112,45 @@ namespace ColorChecker {
 
         private void stocList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (stocList.SelectedItem is MyColor selectColor) {
-                rSlider.Value = selectColor.Color.R;
-                gSlider.Value = selectColor.Color.G;
-                bSlider.Value = selectColor.Color.B;
+                setSliberval(selectColor.Color);
+                
+            }
+        }
+
+        private void setSliberval(Color color) {
+            rSlider.Value = color.R;
+            gSlider.Value = color.G;
+            bSlider.Value = color.B;
+
+        }
+
+        private void UpdateColorCode(Color color) {
+            colorcodetext.Text = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+
+        private void colorcodetext_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+
+
+                try {
+                    string text = colorcodetext.Text.TrimStart('#');
+                    if (text.Length == 6) {
+                        if (text.ToLower() == "rrggbb") {
+                            MessageBox.Show("そういうことじゃないです");
+                            return;
+                        }
+                        byte r = Convert.ToByte(text.Substring(0, 2), 16);
+                        byte g = Convert.ToByte(text.Substring(2, 2), 16);
+                        byte b = Convert.ToByte(text.Substring(4, 2), 16);
+                        setSliberval(Color.FromRgb(r, g, b));
+                        colorArea.Background = new SolidColorBrush(Color.FromRgb(r, g, b));
+                    } else {
+                        MessageBox.Show("#以外に1～Fまでを6字入力してください");
+                    }
+                }
+                catch {
+                    MessageBox.Show("#RRGGBB形式で入力してください");
+                }
             }
         }
     }
