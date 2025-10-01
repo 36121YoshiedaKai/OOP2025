@@ -21,11 +21,16 @@ namespace ColorChecker {
     public partial class MainWindow : Window {
 
         MyColor currentColor;
-
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            colorSelectComboBox.SelectedIndex = 7;
+        }
 
         public MainWindow() {
             InitializeComponent();
-            colorSelectComboBox.DataContext = GetColorList();
+            var firstcolor = GetColorList();
+            colorSelectComboBox.DataContext = firstcolor;
+            colorSelectComboBox.SelectedItem = firstcolor.FirstOrDefault();
+
         }
 
         //すべてのスライダーから呼ばれるハンドラ
@@ -153,5 +158,7 @@ namespace ColorChecker {
                 }
             }
         }
+
+
     }
 }
