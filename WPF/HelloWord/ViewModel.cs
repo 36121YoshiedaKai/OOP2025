@@ -10,7 +10,8 @@ namespace HelloWord {
 
     class ViewModel : BindableBase {
         public ViewModel() {
-            ChangeMessageCommand = new DelegateCommand(() => GreetingMessage = "Bye-bye World");
+            ChangeMessageCommand = new DelegateCommand<string>(
+                (par) => GreetingMessage = par);
 
         }
 
@@ -18,8 +19,22 @@ namespace HelloWord {
 
         public string GreetingMessage {
             get => _greetingMessage;
-            set => SetProperty(ref _greetingMessage, value);
+            set {
+                if(SetProperty(ref _greetingMessage, value)) {
+                    CanChangeMessage = false;
+                }
+            }
+                
         }
-        public DelegateCommand ChangeMessageCommand { get; }
+
+        private bool _canChangeMessage = true;
+        public bool CanChangeMessage {
+            get => _canChangeMessage;
+            private set => SetProperty(ref _canChangeMessage, value);
+        }
+
+        public string NewMessage1 { get; } = "Bey-bey world";
+        public string NewMessage2 { get; } = "Long time no see, world";
+        public DelegateCommand<string> ChangeMessageCommand { get; }
     }
 }
