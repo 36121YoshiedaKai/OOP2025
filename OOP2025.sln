@@ -175,6 +175,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismObservesSample", "WPF\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleUnitConverter", "WPF\SampleUnitConverter\SampleUnitConverter.csproj", "{F8CBA45B-E872-49F1-A220-28225179F05B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLite", "SQLite", "{7D37DF81-AA5B-4D6C-8006-83C2E73F5500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "SQLite\Sample\Sample.csproj", "{506C2A65-A67C-4B4A-9FC0-0F33890F07B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -417,6 +421,10 @@ Global
 		{F8CBA45B-E872-49F1-A220-28225179F05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8CBA45B-E872-49F1-A220-28225179F05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8CBA45B-E872-49F1-A220-28225179F05B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{506C2A65-A67C-4B4A-9FC0-0F33890F07B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506C2A65-A67C-4B4A-9FC0-0F33890F07B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506C2A65-A67C-4B4A-9FC0-0F33890F07B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506C2A65-A67C-4B4A-9FC0-0F33890F07B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -493,6 +501,7 @@ Global
 		{75EA6D4F-B95C-4D51-9BD7-77E35660A914} = {DE515E6D-5377-44CB-B16F-0F7331974C89}
 		{9DB7A570-4709-4F91-A5B1-5270D8D3EFBE} = {DE515E6D-5377-44CB-B16F-0F7331974C89}
 		{F8CBA45B-E872-49F1-A220-28225179F05B} = {DE515E6D-5377-44CB-B16F-0F7331974C89}
+		{506C2A65-A67C-4B4A-9FC0-0F33890F07B3} = {7D37DF81-AA5B-4D6C-8006-83C2E73F5500}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9578B4DF-3D44-4525-A845-4DDEA0661CA5}
