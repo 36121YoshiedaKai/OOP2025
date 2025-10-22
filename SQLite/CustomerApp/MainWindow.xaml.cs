@@ -1,5 +1,7 @@
 ﻿using CustomerApp.Data;
+using Microsoft.Win32;
 using SQLite;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,7 +31,7 @@ public partial class MainWindow : Window {
             Name = NameTextBox.Text,
             Phone = PhoneTextBox.Text,
             Address = AddressTextBox.Text,
-            //Picture = PictureBox.,
+            //Picture = PictureBox.Source 
         };
 
         using (var connection = new SQLiteConnection(App.databasePath)) {
@@ -48,13 +50,14 @@ public partial class MainWindow : Window {
         }
         using (var connection = new SQLiteConnection(App.databasePath)) {
             connection.CreateTable<Customer>();
-            var person = new Customer() {
+            var customer = new Customer() {
                 Id = item.Id,
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
                 Address = AddressTextBox.Text,
+                //Picture = PictureBox.
             };
-            connection.Update(person);
+            connection.Update(customer);
             ReadDatabese();
 
         }
@@ -70,7 +73,7 @@ public partial class MainWindow : Window {
             connection.CreateTable<Customer>();
             connection.Delete(item);        //データベースから選択されているレコードの削除
             ReadDatabese();
-            
+
 
         }
     }
@@ -97,11 +100,23 @@ public partial class MainWindow : Window {
         NameTextBox.Text = item.Name;
         PhoneTextBox.Text = item.Phone;
         AddressTextBox.Text = item.Address;
+        //PictureBox.Source = item.
     }
 
     private void PictureButton_Click(object sender, RoutedEventArgs e) {
-        //if (.ShowDialog() == DialogResult.OK) {
-        //    PictureBox.Image = Image.FromFile(ofdPicFileOpen.FileName);
-        //}
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+        if (openFileDialog.ShowDialog() ?? false) {
+            string file = openFileDialog.FileName;
+
+            BitmapImage bit = new BitmapImage();
+            using(FileStream strean = File.OpenRead(file)) {
+                bit.BeginInit();
+                bit.CacheOption = BitmapCacheOption.OnLoad;
+                bit.StreamSource = strean;
+                bit.EndInit();
+            }
+            PictureBox.Source = bit;
+        }
     }
 }

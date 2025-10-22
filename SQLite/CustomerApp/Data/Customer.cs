@@ -24,6 +24,13 @@ namespace CustomerApp.Data {
         /// <summary>
         /// 画像
         /// </summary>
-        public byte[] Picture { get; set; }
+        public byte[]? Picture { get; set; }
+
+        //public Customer(string name, string phone, string address, byte[]? picture = null) {
+        //    Name = name;
+        //    Phone = phone;
+        //    Address = address;
+        //    Picture = picture;
+        //}
     }
 }

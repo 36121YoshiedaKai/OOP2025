@@ -28,19 +28,20 @@
                 <TextBox x:Name="AddressTextBox" FontSize="20" Margin="5"/>
                 <Image x:Name="PictureBox" Margin="5" Height="150"/>
                 <Button Content="保存(_S)" x:Name="SaveButton"  Click="SaveButton_Click" FontSize="30" Margin="5"/>
-                <Button Content="削除(_X)" x:Name="DeleteButton" Click="DeleteButton_Click" FontSize="20" Width="100" Margin="0,5,25,5" HorizontalAlignment="Right"/>
-                <Button Content="更新(_U)" x:Name="UpdateButton" Click="UpdateButton_Click" FontSize="20" Width="100" Margin="0,5,25,5" HorizontalAlignment="Right"/>
+                <Button Content="削除(_X)" x:Name="DeleteButton" Click="DeleteButton_Click" FontSize="15" Width="100" Margin="0,5,25,5" HorizontalAlignment="Right"/>
+                <Button Content="更新(_U)" x:Name="UpdateButton" Click="UpdateButton_Click" FontSize="15" Width="100" Margin="0,0,25,5" HorizontalAlignment="Right"/>
             </StackPanel>
 
         </Grid>
         <StackPanel Margin="10" Grid.Column="1">
             <TextBox x:Name="SearchTextBox" Margin="0,5,0,0" FontSize="20" TextChanged="SearchTextBox_TextChanged"/>
-            <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="4000" SelectionChanged="CustomerListView_SelectionChanged">
+            <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="350" SelectionChanged="CustomerListView_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" FontSize="20"/>
-                            <TextBlock Text="{Binding Phone}" Foreground="Blue"/>
+                            <TextBlock Text="{Binding Phone}" FontSize="10"/>
+                            <TextBlock Text="{Binding Address}" FontSize="10"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
