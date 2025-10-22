@@ -29,7 +29,7 @@ public partial class MainWindow : Window {
             Name = NameTextBox.Text,
             Phone = PhoneTextBox.Text,
             Address = AddressTextBox.Text,
-            Picture = PictureBox.,
+            //Picture = PictureBox.,
         };
 
         using (var connection = new SQLiteConnection(App.databasePath)) {
