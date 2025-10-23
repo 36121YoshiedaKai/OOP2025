@@ -22,16 +22,19 @@ public partial class MainWindow : Window {
     private List<Customer> _customer = new List<Customer>();
 
     public MainWindow() {
-        InitializeComponent();
+        InitializeComponent();  
         ReadDatabese();
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e) {
+
+        
+
         var customer = new Customer() {
             Name = NameTextBox.Text,
             Phone = PhoneTextBox.Text,
             Address = AddressTextBox.Text,
-            //Picture = PictureBox.Source 
+            Picture = ImageToByteArray(image: (BitmapImage)PictureBox.Source) ,
         };
 
         using (var connection = new SQLiteConnection(App.databasePath)) {
@@ -55,7 +58,7 @@ public partial class MainWindow : Window {
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
                 Address = AddressTextBox.Text,
-                //Picture = PictureBox.
+                Picture = ImageToByteArray(image: (BitmapImage)PictureBox.Source),
             };
             connection.Update(customer);
             ReadDatabese();
@@ -100,7 +103,18 @@ public partial class MainWindow : Window {
         NameTextBox.Text = item.Name;
         PhoneTextBox.Text = item.Phone;
         AddressTextBox.Text = item.Address;
-        //PictureBox.Source = item.
+        if (item.Picture != null && item.Picture.Length > 0) {
+            using (MemoryStream stream = new MemoryStream(item.Picture)) {
+                BitmapImage bit = new BitmapImage();
+                bit.BeginInit();
+                bit.StreamSource = stream;
+                bit.CacheOption = BitmapCacheOption.OnLoad;
+                bit.EndInit();
+                PictureBox.Source = bit;
+            }
+        } else {
+            PictureBox.Source = null;
+        }
     }
 
     private void PictureButton_Click(object sender, RoutedEventArgs e) {
@@ -117,6 +131,24 @@ public partial class MainWindow : Window {
                 bit.EndInit();
             }
             PictureBox.Source = bit;
+        } else {
+            PictureBox.Source = null;
         }
+    }
+
+    private byte[]? ImageToByteArray(BitmapImage image) {
+        if (image is null) {
+            return null;
+        }
+        using (MemoryStream stream = new MemoryStream()) {
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            encoder.Save(stream);
+            return stream.ToArray();
+        }
+    }
+
+    private void ClearButton_Click(object sender, RoutedEventArgs e) {
+        PictureBox.Source = null;
     }
 }
