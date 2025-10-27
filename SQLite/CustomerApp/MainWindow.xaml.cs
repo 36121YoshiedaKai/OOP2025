@@ -2,7 +2,9 @@
 using Microsoft.Win32;
 using SQLite;
 using System.IO;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,19 +24,19 @@ public partial class MainWindow : Window {
     private List<Customer> _customer = new List<Customer>();
 
     public MainWindow() {
-        InitializeComponent();  
+        InitializeComponent();
         ReadDatabese();
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e) {
 
-        
+
 
         var customer = new Customer() {
             Name = NameTextBox.Text,
             Phone = PhoneTextBox.Text,
             Address = AddressTextBox.Text,
-            Picture = ImageToByteArray(image: (BitmapImage)PictureBox.Source) ,
+            Picture = ImageToByteArray(image: (BitmapImage)PictureBox.Source),
         };
 
         using (var connection = new SQLiteConnection(App.databasePath)) {
@@ -124,7 +126,7 @@ public partial class MainWindow : Window {
             string file = openFileDialog.FileName;
 
             BitmapImage bit = new BitmapImage();
-            using(FileStream strean = File.OpenRead(file)) {
+            using (FileStream strean = File.OpenRead(file)) {
                 bit.BeginInit();
                 bit.CacheOption = BitmapCacheOption.OnLoad;
                 bit.StreamSource = strean;
@@ -151,4 +153,16 @@ public partial class MainWindow : Window {
     private void ClearButton_Click(object sender, RoutedEventArgs e) {
         PictureBox.Source = null;
     }
+
+    //private void PostCodSearchButton_Click(object sender, RoutedEventArgs e) {
+    //    var PostCode = PostCodeTextBox.Text.Replace("-", "").Trim();
+    //    try {
+    //        string url = $"https://jp-postal-code-api.ttskch.com/api/v1/{PostCode}.json";
+    //    }
+    //    catch {
+
+    //    }
+    //}
+
 }
+
