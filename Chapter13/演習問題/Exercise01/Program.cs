@@ -41,15 +41,56 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_5() {
-            
+            var books = Library.Books
+                .Join(Library.Categories,
+                book => book.CategoryId,
+                category => category.Id,
+                (book, category) => new {
+                    Category = category.Name,
+                    book.PublishedYear
+                }).Where(b => b.PublishedYear == 2022).Distinct();
+            foreach (var book in books) {
+                Console.WriteLine($"{book.Category}");
+            }
         }
 
         private static void Exercise1_6() {
-            
+            var books = Library.Books
+                .Join(Library.Categories,
+                book => book.CategoryId,
+                category => category.Id,
+                (book, category) => new {
+                    book.Title,
+                    Category = category.Name,
+                }).GroupBy(b => b.Category);
+            foreach (var item in books) {
+                Console.WriteLine($"{item.Key}");
+                foreach (var book in item) {
+                    Console.WriteLine($"    {book.Title}");
+
+                }
+            }
         }
 
         private static void Exercise1_7() {
-            
+            var books = Library.Books
+                .Join(Library.Categories,
+                book => book.CategoryId,
+                category => category.Id,
+                (book, category) => new {
+                    book.Title,
+                    Category = category.Name,
+                    book.PublishedYear
+                }).Where(c => c.Category == "Development")
+                .GroupBy(b => b.PublishedYear);
+            foreach (var item in books) {
+                Console.WriteLine($"{item.Key}");
+                foreach (var book in item) {
+                    Console.WriteLine($"    {book.Title}");
+
+                }
+            }
+
         }
 
         private static void Exercise1_8() {
