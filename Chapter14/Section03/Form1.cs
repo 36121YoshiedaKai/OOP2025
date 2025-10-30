@@ -7,19 +7,20 @@ namespace Section03 {
             InitializeComponent();
         }
 
+
         private async void button1_Click(object sender, EventArgs e) {
             toolStripStatuLabel1.Text = "";
-            var elapsed =  await Task.Run(()=> DoLongTimeWork());
-            toolStripStatuLabel1.Text = $"{elapsed}ƒ~ƒŠ•b ";
+            await DoLongTimeWork();
+            toolStripStatuLabel1.Text = $"I—¹";
 
         }
 
-        private long DoLongTimeWork() {
-            var sw = Stopwatch.StartNew();
-
-            System.Threading.Thread.Sleep(5000);
-            sw.Stop();
-            return sw.ElapsedMilliseconds;
+        //”ñ“¯Šú‚ß‚»‚Á‚Ç
+        private async Task DoLongTimeWork() {
+            await Task.Run(() => {
+                System.Threading.Thread.Sleep(5000);
+            });
         }
     }
 }
+
