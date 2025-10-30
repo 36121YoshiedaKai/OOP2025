@@ -64,7 +64,7 @@ namespace Exercise01 {
                     Category = category.Name,
                 }).GroupBy(b => b.Category);
             foreach (var item in books) {
-                Console.WriteLine($"{item.Key}");
+                Console.WriteLine($"# {item.Key}");
                 foreach (var book in item) {
                     Console.WriteLine($"    {book.Title}");
 
@@ -84,7 +84,7 @@ namespace Exercise01 {
                 }).Where(c => c.Category == "Development")
                 .GroupBy(b => b.PublishedYear);
             foreach (var item in books) {
-                Console.WriteLine($"{item.Key}");
+                Console.WriteLine($"# {item.Key}");
                 foreach (var book in item) {
                     Console.WriteLine($"    {book.Title}");
 
