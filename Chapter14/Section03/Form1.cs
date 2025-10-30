@@ -10,9 +10,18 @@ namespace Section03 {
 
         private async void button1_Click(object sender, EventArgs e) {
             toolStripStatuLabel1.Text = "";
-            await DoLongTimeWork();
-            toolStripStatuLabel1.Text = $"èIóπ";
+            var elapsed = await DoLongTimeWorkAsync(4000);
+            toolStripStatuLabel1.Text = $"{elapsed}É~Éäïb";
 
+        }
+
+        private async Task<long> DoLongTimeWorkAsync(int milliseconds) {
+            var sw = Stopwatch.StartNew();
+            await Task.Run(() => {
+                System.Threading.Thread.Sleep(milliseconds);
+            });
+            sw.Stop();
+            return sw.ElapsedMilliseconds;
         }
 
         //îÒìØä˙ÇﬂÇªÇ¡Ç«

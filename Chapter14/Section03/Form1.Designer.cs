@@ -25,6 +25,8 @@
         private void InitializeComponent() {
             button1 = new Button();
             toolStripStatuLabel1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatuLabel1.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -39,11 +41,18 @@
             // 
             // toolStripStatuLabel1
             // 
+            toolStripStatuLabel1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
             toolStripStatuLabel1.Location = new Point(0, 177);
             toolStripStatuLabel1.Name = "toolStripStatuLabel1";
             toolStripStatuLabel1.Size = new Size(488, 22);
             toolStripStatuLabel1.TabIndex = 1;
             toolStripStatuLabel1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(118, 17);
+            toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // Form1
             // 
@@ -54,6 +63,8 @@
             Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
+            toolStripStatuLabel1.ResumeLayout(false);
+            toolStripStatuLabel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -62,5 +73,6 @@
 
         private Button button1;
         private StatusStrip toolStripStatuLabel1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
