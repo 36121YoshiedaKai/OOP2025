@@ -29,9 +29,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(91, 71);
+            button1.Location = new Point(23, 31);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(114, 69);
             button1.TabIndex = 0;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
