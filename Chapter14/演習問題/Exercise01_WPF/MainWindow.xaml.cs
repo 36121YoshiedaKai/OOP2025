@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,18 +22,15 @@ public partial class MainWindow : Window {
     }
 
     private async void filebutton_Click(object sender, RoutedEventArgs e) {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        if (openFileDialog.ShowDialog() ?? false) {
-            var filePath = openFileDialog.FileName;
 
-            try {
-                var fileContent = System.IO.File.ReadLinesAsync(filePath);
-                await foreach (var item in fileContent) {
-                    filetext.Text += item + Environment.NewLine;
-                }
-            }
-            catch{
+        var filePath = "走れメロス.txt";
+
+        using (var sr = new StreamReader(filePath, Encoding.UTF8)) {
+            var fileContent = System.IO.File.ReadLinesAsync(filePath);
+            await foreach (var item in fileContent) {
+                filetext.Text += item + Environment.NewLine;
             }
         }
+
     }
 }
