@@ -25,12 +25,16 @@ public partial class MainWindow : Window {
 
         var filePath = "走れメロス.txt";
 
+        StringBuilder sb = new StringBuilder();
         using (var sr = new StreamReader(filePath, Encoding.UTF8)) {
-            var fileContent = System.IO.File.ReadLinesAsync(filePath);
-            await foreach (var item in fileContent) {
-                filetext.Text += item + Environment.NewLine;
+           
+            while (!sr.EndOfStream) {
+                string? line = await sr.ReadLineAsync();
+                sb.AppendLine(line);
+                await Task.Delay(10);
             }
         }
+        filetext.Text = sb.ToString();
 
     }
 }
