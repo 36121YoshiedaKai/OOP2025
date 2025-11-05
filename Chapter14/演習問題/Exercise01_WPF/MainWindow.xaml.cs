@@ -20,14 +20,16 @@ public partial class MainWindow : Window {
         InitializeComponent();
     }
 
-    private void filebutton_Click(object sender, RoutedEventArgs e) {
+    private async void filebutton_Click(object sender, RoutedEventArgs e) {
         OpenFileDialog openFileDialog = new OpenFileDialog();
         if (openFileDialog.ShowDialog() ?? false) {
             var filePath = openFileDialog.FileName;
 
             try {
-                var fileContent = System.IO.File.ReadAllText(filePath);
-                filetext.Text = fileContent;
+                var fileContent = System.IO.File.ReadLinesAsync(filePath);
+                await foreach (var item in fileContent) {
+                    filetext.Text += item + Environment.NewLine;
+                }
             }
             catch{
             }

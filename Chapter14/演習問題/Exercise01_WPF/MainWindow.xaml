@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercise01_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="850">
     <Grid>
-        <Button x:Name="filebutton" Content="ファイル" Margin="40,30,640,350" Click="filebutton_Click"/>
-        <TextBox x:Name="filetext" Margin="40,100,40,20"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="filebutton" Grid.Row="0" Content="ファイル"  Click="filebutton_Click" Width="120" Height="53" HorizontalAlignment="Left" Margin="50,0,0,0"/>
+        <TextBox x:Name="filetext" Grid.Row = "1" Width="750" Height="315" TextWrapping="Wrap"/>
     </Grid>
 </Window>
