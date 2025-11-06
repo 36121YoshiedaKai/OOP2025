@@ -19,6 +19,29 @@ namespace WebBrowser;
 public partial class MainWindow : Window {
     public MainWindow() {
         InitializeComponent();
+        InitializeAsync();
+        Gofb();
+    }
+
+    private async void InitializeAsync() {
+        await WebView.EnsureCoreWebView2Async(); //非同期にしてブラウザの初期化処理を行う
+
+        WebView.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
+        WebView.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
+    }
+
+    //読み込み完了したらプログレスバーを非表示
+    private void CoreWebView2_NavigationCompleted(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e) {
+        LoadingBar.Visibility = Visibility.Collapsed;
+        LoadingBar.IsIndeterminate = false;
+        Gofb();
+    }
+
+
+    //読み込み開始したらプログレスバーを表示
+    private void CoreWebView2_NavigationStarting(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e) {
+        LoadingBar.Visibility = Visibility.Visible;
+        LoadingBar.IsIndeterminate = true;
     }
 
     private void BackButton_Click(object sender, RoutedEventArgs e) {
@@ -28,15 +51,21 @@ public partial class MainWindow : Window {
     }
 
     private void FowardButton_Click(object sender, RoutedEventArgs e) {
-
+        if (WebView.CanGoForward) {
+            WebView.GoForward();
+        }
     }
 
     private  void GoButton_Click(object sender, RoutedEventArgs e) {
 
-        try {
-            WebView.Source = new Uri(AddressBar.Text);
-        }
-        catch {
-        }
+        var url = AddressBar.Text.Trim();
+        if (string.IsNullOrWhiteSpace(url)) return;
+        WebView.Source = new Uri(url);
     }
+
+    private void Gofb() {
+        BackButton.IsEnabled = WebView.CanGoBack;
+        FowardButton.IsEnabled = WebView.CanGoForward;
+    }
+
 }
