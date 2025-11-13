@@ -10,9 +10,9 @@ namespace LineCounter {
 
             // @"C:\Users\infosys\source\repos\OOP2025\WPF\ConverterApp\MainWindow.xaml.cs";
             if (!string.IsNullOrWhiteSpace(path)) {
-                
+               path = path.Replace("\"", "");
             }else {
-                path = @"%SystemRoot%\\System32";
+                path = @"";
             }
                 TextProcessor.Run<LineCounterProcessor>(path);
         }
