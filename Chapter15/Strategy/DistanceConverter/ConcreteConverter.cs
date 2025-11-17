@@ -19,7 +19,7 @@ namespace DistanceConverter {
     public class FeetConverter : ConverterBase {
 
         public override bool IsNyUnit(string name) =>
-            name.ToLower() == "meter" || name == UnitName;
+            name.ToLower() == "feet" || name == UnitName;
 
         protected override double Ratio => 0.3048;
 
@@ -30,7 +30,7 @@ namespace DistanceConverter {
     public class InchConverter : ConverterBase {
 
         public override bool IsNyUnit(string name) =>
-            name.ToLower() == "meter" || name == UnitName;
+            name.ToLower() == "inch" || name == UnitName;
 
         protected override double Ratio => 0.0254;
 
@@ -41,7 +41,7 @@ namespace DistanceConverter {
     public class YardConverter : ConverterBase {
 
         public override bool IsNyUnit(string name) =>
-            name.ToLower() == "meter" || name == UnitName;
+            name.ToLower() == "yard" || name == UnitName;
 
         protected override double Ratio => 0.9144;
 
@@ -52,7 +52,7 @@ namespace DistanceConverter {
     public class MileConverter : ConverterBase {
 
         public override bool IsNyUnit(string name) =>
-            name.ToLower() == "meter" || name == UnitName;
+            name.ToLower() == "mile" || name == UnitName;
 
         protected override double Ratio => 1609.34;
 
@@ -63,7 +63,7 @@ namespace DistanceConverter {
     public class KmeterConverter : ConverterBase {
 
         public override bool IsNyUnit(string name) =>
-            name.ToLower() == "meter" || name == UnitName;
+            name.ToLower() == "km" || name == UnitName;
 
         protected override double Ratio => 1000;
 
