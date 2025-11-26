@@ -46,7 +46,7 @@ namespace TenkiApp {
             PrefecturesList.ItemsSource = prefectures;
 
             // 任意で最初のアイテムを選択
-            PrefecturesList.SelectedIndex = -1;
+            PrefecturesList.SelectedIndex = 12;
         }
 
         private void Timer_Tick(object? sender, EventArgs e) {
@@ -165,7 +165,7 @@ namespace TenkiApp {
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             FontSize = 16,
-                            Margin = new Thickness(5)
+                            Margin = new Thickness(20, 5, 10, 5)
                         };
                         Grid.SetRow(timeTextBlock, 0); // 1行目に配置
                         Grid.SetColumn(timeTextBlock, i + 1); // 横に並べるために列を動的に追加
@@ -177,7 +177,7 @@ namespace TenkiApp {
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             FontSize = 16,
-                            Margin = new Thickness(5)
+                            Margin = new Thickness(20, 5, 10, 5)
                         };
                         Grid.SetRow(tempTextBlock, 1); // 2行目に配置
                         Grid.SetColumn(tempTextBlock, i + 1); // 横に並べるために列を動的に追加
@@ -189,7 +189,7 @@ namespace TenkiApp {
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
                             FontSize = 16,
-                            Margin = new Thickness(5)
+                            Margin = new Thickness(20, 5, 10, 5)
                         };
                         Grid.SetRow(windTextBlock, 2); // 3行目に配置
                         Grid.SetColumn(windTextBlock, i + 1); // 横に並べるために列を動的に追加
@@ -389,6 +389,7 @@ namespace TenkiApp {
                 MessageBox.Show("天気情報の取得に失敗しました：" + ex.Message);
             }
         }
+
 
     }
 }
