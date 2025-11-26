@@ -59,6 +59,8 @@ namespace TenkiApp {
 
             string prefecture = PrefecturesList.SelectedItem.ToString();
 
+            FetchWeeklyWeather(prefecture);
+
             if (!PrefectureLocations.ContainsKey(prefecture)) return;
 
             var (lat, lon) = PrefectureLocations[prefecture];
@@ -92,7 +94,7 @@ namespace TenkiApp {
                     // 7時間分のデータを格納するリスト
                     List<Hourly> hourlyData = new List<Hourly>();
 
-                    // 現在時刻から5時間分のデータを取得
+                    // 現在時刻から7時間分のデータを取得
                     for (int i = 0; i < 7; i++) {
                         // 1時間後の時刻を計算
                         DateTime timeAtHour = currentTime.AddHours(i);
@@ -117,7 +119,7 @@ namespace TenkiApp {
                         Text = "時間",
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
-                        FontSize = 14,
+                        FontSize = 16,
                         Margin = new Thickness(5)
                     };
                     Grid.SetRow(timeHeader, 0);  // 1行目に配置
@@ -128,7 +130,7 @@ namespace TenkiApp {
                         Text = "気温",
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
-                        FontSize = 14,
+                        FontSize = 16,
                         Margin = new Thickness(5)
                     };
                     Grid.SetRow(tempHeader, 1);  // 2行目に配置
@@ -139,7 +141,7 @@ namespace TenkiApp {
                         Text = "風速",
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
-                        FontSize = 14,
+                        FontSize = 16,
                         Margin = new Thickness(5)
                     };
                     Grid.SetRow(windHeader, 2);  // 3行目に配置
@@ -162,7 +164,7 @@ namespace TenkiApp {
                             Text = hourlyData[i].Time,
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
-                            FontSize = 14,
+                            FontSize = 16,
                             Margin = new Thickness(5)
                         };
                         Grid.SetRow(timeTextBlock, 0); // 1行目に配置
@@ -174,7 +176,7 @@ namespace TenkiApp {
                             Text = hourlyData[i].Temperature,
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
-                            FontSize = 14,
+                            FontSize = 16,
                             Margin = new Thickness(5)
                         };
                         Grid.SetRow(tempTextBlock, 1); // 2行目に配置
@@ -186,7 +188,7 @@ namespace TenkiApp {
                             Text = hourlyData[i].WindSpeed,
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Center,
-                            FontSize = 14,
+                            FontSize = 16,
                             Margin = new Thickness(5)
                         };
                         Grid.SetRow(windTextBlock, 2); // 3行目に配置
@@ -296,7 +298,97 @@ namespace TenkiApp {
             WeatherIcon.Source = new BitmapImage(new Uri(iconPath, UriKind.Relative));
         }
 
+        private async void FetchWeeklyWeather(string prefecture) {
+            if (!PrefectureLocations.ContainsKey(prefecture)) return;
+
+            var (lat, lon) = PrefectureLocations[prefecture];
+
+            string url = $"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min,wind_speed_10m_max&timezone=Asia%2FTokyo";
+
+            try {
+                using var http = new HttpClient();
+                var result = await http.GetFromJsonAsync<WeatherResponse>(url);
+
+                if (result?.daily != null) {
+                    // 今日の曜日を取得（例: 水曜日）
+                    DateTime currentDate = DateTime.Now;
+                    DayOfWeek currentDayOfWeek = currentDate.DayOfWeek;
+
+                    // 曜日をリストとして保持 (日曜日=0, 土曜日=6)
+                    List<string> daysOfWeek = new List<string> { "日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日" };
+
+                    // 今日から数えて1週間分のデータを取得
+                    List<string> weeklyDays = new List<string>();
+
+                    // 今日から1週間分の曜日を取得 (今日の次の日から表示)
+                    for (int i = 1; i <= 7; i++) {
+                        int dayIndex = (int)(currentDayOfWeek + i) % 7; // 今日の次の日から数えて1週間
+                        weeklyDays.Add(daysOfWeek[dayIndex]);
+                    }
+
+                    WeeklyWeatherGrid.Children.Clear();  // UIをクリア
+
+                    // 行定義の追加
+                    for (int i = 0; i < 4; i++) {
+                        WeeklyWeatherGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    }
+
+                    // 曜日列 (TextBlockを動的に追加)
+                    for (int i = 0; i < 7; i++) {
+                        var dayTextBlock = new TextBlock {
+                            Text = weeklyDays[i],
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontSize = 15, // フォントサイズを調整
+                            Margin = new Thickness(5)
+                        };
+                        Grid.SetRow(dayTextBlock, 0);  // 1行目（曜日）に配置
+                        Grid.SetColumn(dayTextBlock, i); // 横に並べる
+                        WeeklyWeatherGrid.Children.Add(dayTextBlock);
+                    }
+
+                    // 列の定義を1回だけ動的に追加
+                    WeeklyWeatherGrid.ColumnDefinitions.Clear();
+                    for (int i = 0; i < 7; i++) {
+                        WeeklyWeatherGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    }
+
+                    // 気温列 (TextBlockを動的に追加)
+                    for (int i = 0; i < 7; i++) {
+                        var maxTemp = result.daily.temperature_2m_max[i];
+                        var minTemp = result.daily.temperature_2m_min[i];
+                        var tempTextBlock = new TextBlock {
+                            Text = $"{maxTemp}°C / {minTemp}°C",
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontSize = 15,  // フォントサイズを調整
+                            Margin = new Thickness(5)
+                        };
+                        Grid.SetRow(tempTextBlock, 1);  // 2行目（気温）に配置
+                        Grid.SetColumn(tempTextBlock, i); // 横に並べる
+                        WeeklyWeatherGrid.Children.Add(tempTextBlock);
+                    }
+
+                    // 風速列 (TextBlockを動的に追加)
+                    for (int i = 0; i < 7; i++) {
+                        var maxWindSpeed = result.daily.wind_speed_10m_max[i]; // 最大風速
+                        var windSpeedTextBlock = new TextBlock {
+                            Text = $"{maxWindSpeed} m/s",
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontSize = 15,  // フォントサイズを調整
+                            Margin = new Thickness(5)
+                        };
+                        Grid.SetRow(windSpeedTextBlock, 2);  // 3行目（風速）に配置
+                        Grid.SetColumn(windSpeedTextBlock, i); // 横に並べる
+                        WeeklyWeatherGrid.Children.Add(windSpeedTextBlock);
+                    }
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show("天気情報の取得に失敗しました：" + ex.Message);
+            }
+        }
+
     }
-
-
 }
