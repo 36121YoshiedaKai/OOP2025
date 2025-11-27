@@ -154,15 +154,61 @@ public partial class MainWindow : Window {
         PictureBox.Source = null;
     }
 
-    //private void PostCodSearchButton_Click(object sender, RoutedEventArgs e) {
-    //    var PostCode = PostCodeTextBox.Text.Replace("-", "").Trim();
-    //    try {
-    //        string url = $"https://jp-postal-code-api.ttskch.com/api/v1/{PostCode}.json";
-    //    }
-    //    catch {
+    private async void PostCodeSearchButton_Click(object sender, RoutedEventArgs e) {
+        string postCode = PostCodeTextBox.Text.Replace("-", "").Trim();
 
-    //    }
-    //}
+        if (string.IsNullOrEmpty(postCode) || postCode.Length != 7) {
+            MessageBox.Show("正しい郵便番号を入力してください");
+            return;
+        }
+
+        try {
+            // JP Postal Code APIにリクエストを送る
+            string url = $"https://jp-postal-code-api.ttskch.com/api/v1/{postCode}.json";
+            Console.WriteLine("リクエストURL: " + url);  // URLを表示して確認
+
+            using (HttpClient client = new HttpClient()) {
+                var response = await client.GetStringAsync(url);
+                Console.WriteLine("APIレスポンス: " + response);  // レスポンス内容を表示
+
+                var json = JsonSerializer.Deserialize<PostalCodeResponse>(response);
+                if (json != null && json.addresses != null && json.addresses.Count > 0) {
+                    var address = json.addresses[0];  // 最初の住所情報を取得
+                    string fullAddress = $"{address.ja.prefecture}{address.ja.address1}{address.ja.address2}";
+
+                    // 住所が見つかればTextBoxに設定
+                    AddressTextBox.Text = fullAddress;
+                } else {
+                    MessageBox.Show("住所が見つかりませんでした");
+                }
+            }
+        }
+        catch (Exception ex) {
+            MessageBox.Show("エラーが発生しました: " + ex.Message);
+        }
+    }
+
 
 }
+
+public class PostalCodeResponse {
+    public string postalCode { get; set; }
+    public List<Address> addresses { get; set; }
+}
+
+public class Address {
+    public string prefectureCode { get; set; }
+    public AddressDetails ja { get; set; }
+    public AddressDetails kana { get; set; }
+    public AddressDetails en { get; set; }
+}
+
+public class AddressDetails {
+    public string prefecture { get; set; }
+    public string address1 { get; set; }
+    public string address2 { get; set; }
+    public string address3 { get; set; }
+    public string address4 { get; set; }
+}
+
 
